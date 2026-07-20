@@ -1,0 +1,1371 @@
+<!DOCTYPE html>
+<html lang="th" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="บริการรับพิมพ์ 3D ระดับอุตสาหกรรม ตัดและแกะสลักเลเซอร์ โดย บริษัท เอ แอนด์ เอ็น จำกัด พร้อมออกใบกำกับภาษีเต็มรูปแบบ">
+    <meta name="theme-color" content="#0f172a">
+    <title>A&amp;N Digital Fabrication | 3D Printing &amp; Laser Service</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Thai:wght@300;400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        ink: '#020617',
+                        panel: '#0b1220',
+                        cyan: '#00f2fe',
+                        amber: '#f59e0b',
+                    },
+                    fontFamily: {
+                        sans: ['IBM Plex Sans Thai', 'sans-serif'],
+                        display: ['Space Grotesk', 'IBM Plex Sans Thai', 'sans-serif'],
+                    },
+                    boxShadow: {
+                        'cyan-glow': '0 0 0 1px rgba(0,242,254,.18), 0 24px 80px rgba(0,242,254,.10)',
+                        'amber-glow': '0 0 0 1px rgba(245,158,11,.18), 0 24px 80px rgba(245,158,11,.10)',
+                    },
+                }
+            }
+        }
+    </script>
+    <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js" defer></script>
+
+    <style>
+        :root {
+            color-scheme: dark;
+            --cyan: #00f2fe;
+            --amber: #f59e0b;
+            --ink: #0f172a;
+        }
+
+        * { box-sizing: border-box; }
+
+        html, body { max-width: 100%; }
+
+        .grid > *,
+        .flex > *,
+        main,
+        section,
+        article,
+        aside,
+        nav,
+        header,
+        footer,
+        button,
+        label {
+            min-width: 0;
+        }
+
+        h1, h2, h3, h4, p, span, a, button, label {
+            overflow-wrap: anywhere;
+        }
+
+        input, select, textarea { max-width: 100%; }
+
+        body .text-slate-500,
+        body .text-slate-600 {
+            color: #94a3b8 !important;
+        }
+
+        html { scroll-padding-top: 88px; }
+
+        body {
+            margin: 0;
+            background: #0f172a;
+            color: #e2e8f0;
+            overflow-x: hidden;
+        }
+
+        ::selection {
+            background: rgba(0, 242, 254, .28);
+            color: white;
+        }
+
+        ::-webkit-scrollbar { width: 10px; }
+        ::-webkit-scrollbar-track { background: #020617; }
+        ::-webkit-scrollbar-thumb {
+            background: #1e293b;
+            border: 2px solid #020617;
+            border-radius: 999px;
+        }
+
+        .industrial-grid {
+            background-image:
+                linear-gradient(rgba(148,163,184,.035) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(148,163,184,.035) 1px, transparent 1px);
+            background-size: 42px 42px;
+            mask-image: linear-gradient(to bottom, black 20%, transparent 88%);
+        }
+
+        .noise-layer {
+            background-image:
+                radial-gradient(circle at 12% 14%, rgba(0,242,254,.10), transparent 26%),
+                radial-gradient(circle at 88% 22%, rgba(245,158,11,.08), transparent 24%),
+                radial-gradient(circle at 52% 82%, rgba(14,165,233,.05), transparent 28%);
+        }
+
+        .glass-panel {
+            background: linear-gradient(145deg, rgba(15,23,42,.82), rgba(6,12,24,.92));
+            border: 1px solid rgba(148,163,184,.14);
+            box-shadow: inset 0 1px 0 rgba(255,255,255,.03), 0 30px 90px rgba(0,0,0,.22);
+            backdrop-filter: blur(16px);
+        }
+
+        .cut-corners {
+            clip-path: polygon(0 14px, 14px 0, 100% 0, 100% calc(100% - 14px), calc(100% - 14px) 100%, 0 100%);
+        }
+
+        .tech-label {
+            font-family: 'Space Grotesk', 'IBM Plex Sans Thai', sans-serif;
+            letter-spacing: .18em;
+            text-transform: uppercase;
+        }
+
+        .gradient-text {
+            background: linear-gradient(96deg, #ffffff 8%, #b9fbff 48%, #00f2fe 100%);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+
+        .laser-text {
+            background: linear-gradient(96deg, #fff7ed, #fbbf24);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+
+        .status-dot::before {
+            content: '';
+            width: 7px;
+            height: 7px;
+            border-radius: 50%;
+            background: #00f2fe;
+            box-shadow: 0 0 14px #00f2fe;
+            display: inline-block;
+            margin-right: 8px;
+        }
+
+        .machine-card::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            pointer-events: none;
+            background: linear-gradient(110deg, transparent 30%, rgba(255,255,255,.025) 49%, transparent 68%);
+            transform: translateX(-100%);
+            transition: transform .8s ease;
+        }
+
+        .machine-card:hover::after { transform: translateX(100%); }
+
+        .feature-button[aria-pressed="true"] {
+            border-color: rgba(0,242,254,.55);
+            background: rgba(0,242,254,.075);
+            color: white;
+        }
+
+        .feature-button[data-tone="amber"][aria-pressed="true"] {
+            border-color: rgba(245,158,11,.6);
+            background: rgba(245,158,11,.08);
+        }
+
+        .tab-trigger[aria-selected="true"] {
+            color: #fff;
+            background: #172033;
+            box-shadow: inset 0 0 0 1px rgba(148,163,184,.15), 0 8px 30px rgba(0,0,0,.18);
+        }
+
+        .tab-trigger[data-tone="cyan"][aria-selected="true"] {
+            color: var(--cyan);
+            box-shadow: inset 0 -2px 0 var(--cyan), inset 0 0 0 1px rgba(0,242,254,.18);
+        }
+
+        .tab-trigger[data-tone="amber"][aria-selected="true"] {
+            color: #fbbf24;
+            box-shadow: inset 0 -2px 0 var(--amber), inset 0 0 0 1px rgba(245,158,11,.18);
+        }
+
+        .color-swatch {
+            width: 34px;
+            height: 34px;
+            border-radius: 9px;
+            border: 1px solid rgba(255,255,255,.18);
+            box-shadow: inset 0 1px 0 rgba(255,255,255,.22), 0 6px 14px rgba(0,0,0,.20);
+            transition: transform .2s ease, box-shadow .2s ease;
+        }
+
+        .color-swatch:hover,
+        .color-swatch:focus-visible {
+            transform: translateY(-3px) scale(1.08);
+            box-shadow: 0 0 0 2px #020617, 0 0 0 3px rgba(0,242,254,.65), 0 10px 24px rgba(0,0,0,.30);
+            outline: none;
+        }
+
+        .checkerboard {
+            background-color: rgba(255,255,255,.42) !important;
+            background-image:
+                linear-gradient(45deg, rgba(255,255,255,.5) 25%, transparent 25%),
+                linear-gradient(-45deg, rgba(255,255,255,.5) 25%, transparent 25%),
+                linear-gradient(45deg, transparent 75%, rgba(255,255,255,.5) 75%),
+                linear-gradient(-45deg, transparent 75%, rgba(255,255,255,.5) 75%);
+            background-size: 10px 10px;
+            background-position: 0 0, 0 5px, 5px -5px, -5px 0;
+        }
+
+        .field {
+            width: 100%;
+            border: 1px solid rgba(100,116,139,.46);
+            border-radius: 12px;
+            background: rgba(2,6,23,.74);
+            color: #f8fafc;
+            padding: .82rem 1rem;
+            outline: none;
+            transition: border-color .2s ease, box-shadow .2s ease, background .2s ease;
+        }
+
+        .field:hover { border-color: rgba(148,163,184,.60); }
+
+        .field:focus {
+            border-color: var(--cyan);
+            box-shadow: 0 0 0 3px rgba(0,242,254,.10);
+            background: rgba(2,6,23,.95);
+        }
+
+        input[type="range"] {
+            accent-color: var(--amber);
+        }
+
+        .drop-active {
+            border-color: var(--cyan) !important;
+            background: rgba(0,242,254,.06) !important;
+            box-shadow: 0 0 0 4px rgba(0,242,254,.07), inset 0 0 50px rgba(0,242,254,.04);
+        }
+
+        .scan-beam {
+            animation: scan 3.6s linear infinite;
+        }
+
+        @keyframes scan {
+            0% { transform: translateY(-8px); opacity: 0; }
+            15%, 80% { opacity: .9; }
+            100% { transform: translateY(180px); opacity: 0; }
+        }
+
+        .reveal {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity .7s ease, transform .7s ease;
+        }
+
+        .reveal.is-visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .number-tabular { font-variant-numeric: tabular-nums; }
+
+        :focus-visible {
+            outline: 2px solid var(--cyan);
+            outline-offset: 3px;
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            *, *::before, *::after {
+                scroll-behavior: auto !important;
+                animation-duration: .01ms !important;
+                animation-iteration-count: 1 !important;
+                transition-duration: .01ms !important;
+            }
+            .reveal { opacity: 1; transform: none; }
+        }
+    </style>
+</head>
+
+<body class="pb-20 font-sans antialiased md:pb-0">
+    <a href="#main-content" class="fixed left-4 top-3 z-[100] -translate-y-20 rounded-lg bg-cyan px-4 py-2 font-semibold text-slate-950 transition focus:translate-y-0">
+        ข้ามไปยังเนื้อหาหลัก
+    </a>
+
+    <div aria-hidden="true" class="pointer-events-none fixed inset-0 z-0 industrial-grid"></div>
+    <div aria-hidden="true" class="pointer-events-none fixed inset-0 z-0 noise-layer"></div>
+
+    <header class="fixed inset-x-0 top-0 z-50 border-b border-white/[.07] bg-slate-950/80 backdrop-blur-xl">
+        <nav class="mx-auto flex h-[76px] max-w-7xl items-center justify-between px-5 sm:px-8" aria-label="เมนูหลัก">
+            <a href="#home" class="group flex min-w-0 items-center gap-3" aria-label="กลับสู่หน้าแรก A&N">
+                <span class="relative grid h-10 w-10 shrink-0 place-items-center overflow-hidden border border-cyan/35 bg-cyan/[.06] font-display text-sm font-bold text-cyan cut-corners">
+                    A&amp;N
+                    <span class="absolute bottom-0 left-0 h-px w-full bg-gradient-to-r from-transparent via-cyan to-transparent"></span>
+                </span>
+                <span class="min-w-0">
+                    <span class="block truncate text-sm font-semibold leading-tight text-white sm:text-base">บริษัท เอ แอนด์ เอ็น จำกัด</span>
+                    <span class="hidden font-display text-[10px] uppercase tracking-[.20em] text-slate-500 sm:block">Digital Fabrication Lab</span>
+                </span>
+            </a>
+
+            <div class="hidden items-center gap-8 lg:flex">
+                <a href="#machinery" class="text-sm text-slate-400 transition hover:text-white">เครื่องจักร</a>
+                <a href="#materials" class="text-sm text-slate-400 transition hover:text-white">วัสดุ &amp; สี</a>
+                <a href="#estimator" class="text-sm text-slate-400 transition hover:text-white">ประเมินราคา</a>
+                <a href="#quote" class="text-sm text-slate-400 transition hover:text-white">ส่งไฟล์</a>
+            </div>
+
+            <div class="flex items-center gap-2">
+                <div class="hidden items-center gap-2 rounded-full border border-amber-400/20 bg-amber-400/[.06] px-3 py-2 text-[11px] font-medium text-amber-200 md:flex">
+                    <i data-lucide="badge-check" class="h-4 w-4" aria-hidden="true"></i>
+                    <span>Full Tax Invoice Available (ออกใบกำกับภาษีเต็มรูปแบบ)</span>
+                </div>
+                <button id="mobileMenuButton" type="button" class="grid h-10 w-10 place-items-center rounded-lg border border-slate-700/70 bg-slate-900 text-slate-300 lg:hidden" aria-expanded="false" aria-controls="mobileMenu" aria-label="เปิดเมนู">
+                    <i data-lucide="menu" class="h-5 w-5" aria-hidden="true"></i>
+                </button>
+            </div>
+        </nav>
+
+        <div id="mobileMenu" class="hidden border-t border-white/[.06] bg-slate-950/95 px-5 py-4 lg:hidden">
+            <div class="mx-auto grid max-w-7xl gap-1">
+                <a href="#machinery" class="rounded-lg px-3 py-3 text-sm text-slate-300 hover:bg-white/[.04]">เครื่องจักร</a>
+                <a href="#materials" class="rounded-lg px-3 py-3 text-sm text-slate-300 hover:bg-white/[.04]">วัสดุ &amp; สี</a>
+                <a href="#estimator" class="rounded-lg px-3 py-3 text-sm text-slate-300 hover:bg-white/[.04]">ประเมินราคา</a>
+                <a href="#quote" class="rounded-lg px-3 py-3 text-sm text-slate-300 hover:bg-white/[.04]">ส่งไฟล์ขอใบเสนอราคา</a>
+                <div class="mt-2 flex items-center gap-2 border-t border-white/[.06] px-3 pt-4 text-xs text-amber-200">
+                    <i data-lucide="badge-check" class="h-4 w-4" aria-hidden="true"></i>
+                    ออกใบกำกับภาษีเต็มรูปแบบ
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <main id="main-content" class="relative z-10">
+        <section id="home" class="relative overflow-hidden pt-[76px]">
+            <div class="mx-auto max-w-7xl px-5 pb-16 pt-16 sm:px-8 sm:pt-24 lg:pb-24">
+                <div class="grid items-center gap-12 lg:grid-cols-[1.15fr_.85fr] lg:gap-16">
+                    <div class="reveal">
+                        <div class="mb-6 inline-flex items-center gap-2 rounded-full border border-cyan/20 bg-cyan/[.05] px-3 py-2 text-xs font-medium text-cyan">
+                            <span class="status-dot">DIGITAL FABRICATION SERVICE</span>
+                            <span class="h-3 w-px bg-cyan/25"></span>
+                            <span class="text-slate-400">3D PRINT + LASER</span>
+                        </div>
+
+                        <h1 class="max-w-5xl font-display text-[clamp(2.55rem,6vw,5.6rem)] font-semibold leading-[.96] tracking-[-.055em] text-white">
+                            Next-Gen Digital Fabrication:
+                            <span class="mt-3 block gradient-text">Industrial 3D Printing</span>
+                            <span class="mt-3 block text-[.52em] tracking-[-.035em] text-slate-400">&amp; <span class="laser-text">Precision Laser Service</span></span>
+                        </h1>
+
+                        <p class="mt-7 max-w-2xl text-base leading-8 text-slate-400 sm:text-lg">
+                            เปลี่ยนไฟล์ดิจิทัลให้เป็นชิ้นงานจริง ด้วยระบบพิมพ์ 3D หลายสี/หลายวัสดุ และงานเลเซอร์ความละเอียดสูงในที่เดียว เหมาะทั้งงานต้นแบบ ชิ้นส่วนใช้งาน และงานแบรนด์ระดับองค์กร
+                        </p>
+
+                        <div class="mt-9 flex flex-col gap-3 sm:flex-row">
+                            <a href="#estimator" class="group inline-flex items-center justify-center gap-2 bg-cyan px-6 py-3.5 font-semibold text-slate-950 transition hover:bg-white cut-corners">
+                                ประเมินราคาทันที
+                                <i data-lucide="arrow-down-right" class="h-4 w-4 transition group-hover:translate-x-0.5 group-hover:translate-y-0.5" aria-hidden="true"></i>
+                            </a>
+                            <a href="#quote" class="inline-flex items-center justify-center gap-2 border border-slate-700 bg-slate-900/60 px-6 py-3.5 font-semibold text-white transition hover:border-amber-400/40 hover:bg-amber-400/[.06] cut-corners">
+                                <i data-lucide="upload-cloud" class="h-4 w-4 text-amber-400" aria-hidden="true"></i>
+                                ส่งไฟล์ขอราคาจริง
+                            </a>
+                        </div>
+
+                        <div class="mt-9 flex flex-wrap gap-x-6 gap-y-3 text-xs text-slate-500">
+                            <span class="inline-flex items-center gap-2"><i data-lucide="file-check-2" class="h-4 w-4 text-cyan/80" aria-hidden="true"></i> STL / STEP / DXF / AI</span>
+                            <span class="inline-flex items-center gap-2"><i data-lucide="layers-3" class="h-4 w-4 text-cyan/80" aria-hidden="true"></i> Multi-Material Workflow</span>
+                            <span class="inline-flex items-center gap-2"><i data-lucide="receipt-text" class="h-4 w-4 text-amber-400/80" aria-hidden="true"></i> Corporate Tax Invoice</span>
+                        </div>
+                    </div>
+
+                    <div class="reveal relative" style="transition-delay:120ms">
+                        <div class="absolute -inset-8 -z-10 bg-cyan/[.06] blur-3xl"></div>
+                        <div class="glass-panel relative overflow-hidden p-5 sm:p-7 cut-corners">
+                            <div class="flex items-center justify-between border-b border-white/[.07] pb-4">
+                                <div>
+                                    <p class="tech-label text-[10px] text-slate-500">Capability Overview</p>
+                                    <h2 class="mt-1 font-display text-lg font-semibold text-white">A&amp;N Fabrication Workflow</h2>
+                                </div>
+                                <div class="rounded-full border border-cyan/20 bg-cyan/[.07] px-3 py-1.5 text-[10px] font-semibold uppercase tracking-widest text-cyan">3D + Laser</div>
+                            </div>
+
+                            <div class="relative mt-6 h-[210px] overflow-hidden rounded-xl border border-slate-700/70 bg-slate-950/80 p-5">
+                                <div class="absolute inset-0 opacity-50 industrial-grid"></div>
+                                <div class="scan-beam absolute left-0 right-0 top-0 z-10 h-px bg-gradient-to-r from-transparent via-cyan to-transparent shadow-[0_0_16px_#00f2fe]"></div>
+                                <div class="relative z-10 grid h-full grid-cols-2 gap-4">
+                                    <div class="flex flex-col justify-between border border-cyan/20 bg-cyan/[.035] p-4 cut-corners">
+                                        <div class="flex items-start justify-between">
+                                            <i data-lucide="box" class="h-7 w-7 text-cyan" aria-hidden="true"></i>
+                                            <span class="font-display text-[10px] uppercase tracking-widest text-cyan/60">3DP-01</span>
+                                        </div>
+                                        <div>
+                                            <p class="font-display text-xl font-semibold text-white">H2C</p>
+                                            <p class="mt-1 text-xs text-slate-500">Multi-material additive cell</p>
+                                        </div>
+                                        <div class="h-1.5 overflow-hidden rounded-full bg-slate-800"><div class="h-full w-[92%] rounded-full bg-cyan shadow-[0_0_12px_#00f2fe]"></div></div>
+                                    </div>
+                                    <div class="flex flex-col justify-between border border-amber-400/20 bg-amber-400/[.035] p-4 cut-corners">
+                                        <div class="flex items-start justify-between">
+                                            <i data-lucide="scan-line" class="h-7 w-7 text-amber-400" aria-hidden="true"></i>
+                                            <span class="font-display text-[10px] uppercase tracking-widest text-amber-400/60">LSR-20W</span>
+                                        </div>
+                                        <div>
+                                            <p class="font-display text-xl font-semibold text-white">Falcon A1 Pro</p>
+                                            <p class="mt-1 text-xs text-slate-500">Enclosed laser workstation</p>
+                                        </div>
+                                        <div class="h-1.5 overflow-hidden rounded-full bg-slate-800"><div class="h-full w-[88%] rounded-full bg-amber-400 shadow-[0_0_12px_#f59e0b]"></div></div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="mt-5 grid grid-cols-3 divide-x divide-white/[.07] rounded-xl border border-white/[.07] bg-white/[.025] py-4 text-center">
+                                <div class="px-2"><strong class="block font-display text-lg text-white">65°C</strong><span class="mt-1 block text-[10px] text-slate-500">HEATED CHAMBER</span></div>
+                                <div class="px-2"><strong class="block font-display text-lg text-white">7</strong><span class="mt-1 block text-[10px] text-slate-500">TOOL HEADS</span></div>
+                                <div class="px-2"><strong class="block font-display text-lg text-white">20W</strong><span class="mt-1 block text-[10px] text-slate-500">LASER POWER</span></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="machinery" class="scroll-mt-24 pt-24">
+                    <div class="reveal mb-9 flex flex-col justify-between gap-5 md:flex-row md:items-end">
+                        <div>
+                            <p class="tech-label text-xs text-cyan">Ultimate Machinery Combo</p>
+                            <h2 class="mt-3 font-display text-3xl font-semibold tracking-tight text-white sm:text-4xl">Two systems. One seamless production flow.</h2>
+                        </div>
+                        <p class="max-w-lg text-sm leading-7 text-slate-500">เลือกดูจุดเด่นของแต่ละระบบ เพื่อเข้าใจว่าเทคโนโลยีใดช่วยให้งานของคุณเร็วขึ้น สวยขึ้น และเหมาะกับการใช้งานจริงมากขึ้น</p>
+                    </div>
+
+                    <div class="grid gap-5 lg:grid-cols-2">
+                        <article class="machine-card glass-panel reveal relative overflow-hidden p-6 shadow-cyan-glow sm:p-8 cut-corners">
+                            <div class="absolute right-0 top-0 h-32 w-32 bg-cyan/[.07] blur-3xl"></div>
+                            <div class="relative z-10">
+                                <div class="flex items-start justify-between gap-4">
+                                    <div>
+                                        <div class="mb-4 inline-flex items-center gap-2 rounded-full border border-cyan/20 bg-cyan/[.06] px-3 py-1.5 text-[10px] font-semibold uppercase tracking-[.16em] text-cyan">Additive Manufacturing</div>
+                                        <h3 class="font-display text-3xl font-semibold text-white">Bambu Lab <span class="text-cyan">H2C</span></h3>
+                                        <p class="mt-2 text-sm text-slate-500">High-speed multi-color / multi-material 3D printer</p>
+                                    </div>
+                                    <div class="grid h-12 w-12 shrink-0 place-items-center border border-cyan/25 bg-cyan/[.06] text-cyan cut-corners"><i data-lucide="printer" class="h-6 w-6" aria-hidden="true"></i></div>
+                                </div>
+
+                                <div class="mt-8 space-y-3" role="group" aria-label="คุณสมบัติ Bambu Lab H2C">
+                                    <button type="button" class="feature-button w-full rounded-xl border border-slate-700/70 bg-slate-950/50 p-4 text-left transition" data-tone="cyan" data-feature="chamber" aria-pressed="true">
+                                        <span class="flex items-center justify-between gap-4"><span><strong class="block text-sm font-semibold text-white">Active Heated Chamber 65°C</strong><span class="mt-1 block text-xs text-slate-500">ลดการโก่งงอของ ABS / ASA</span></span><i data-lucide="thermometer-sun" class="h-5 w-5 shrink-0 text-cyan" aria-hidden="true"></i></span>
+                                    </button>
+                                    <button type="button" class="feature-button w-full rounded-xl border border-slate-700/70 bg-slate-950/50 p-4 text-left transition" data-tone="cyan" data-feature="toolchanger" aria-pressed="false">
+                                        <span class="flex items-center justify-between gap-4"><span><strong class="block text-sm font-semibold text-white">7-Nozzle Magnetic Tool Changer</strong><span class="mt-1 block text-xs text-slate-500">เปลี่ยนสี/วัสดุเร็ว ลดของเสียได้สูงสุด 80%</span></span><i data-lucide="replace" class="h-5 w-5 shrink-0 text-cyan" aria-hidden="true"></i></span>
+                                    </button>
+                                    <button type="button" class="feature-button w-full rounded-xl border border-slate-700/70 bg-slate-950/50 p-4 text-left transition" data-tone="cyan" data-feature="corexy" aria-pressed="false">
+                                        <span class="flex items-center justify-between gap-4"><span><strong class="block text-sm font-semibold text-white">CoreXY High-Speed</strong><span class="mt-1 block text-xs text-slate-500">การเคลื่อนที่แม่นยำสำหรับงานผลิตความเร็วสูง</span></span><i data-lucide="move-3d" class="h-5 w-5 shrink-0 text-cyan" aria-hidden="true"></i></span>
+                                    </button>
+                                </div>
+                            </div>
+                        </article>
+
+                        <article class="machine-card glass-panel reveal relative overflow-hidden p-6 shadow-amber-glow sm:p-8 cut-corners" style="transition-delay:100ms">
+                            <div class="absolute right-0 top-0 h-32 w-32 bg-amber-400/[.07] blur-3xl"></div>
+                            <div class="relative z-10">
+                                <div class="flex items-start justify-between gap-4">
+                                    <div>
+                                        <div class="mb-4 inline-flex items-center gap-2 rounded-full border border-amber-400/20 bg-amber-400/[.06] px-3 py-1.5 text-[10px] font-semibold uppercase tracking-[.16em] text-amber-300">Subtractive &amp; Engraving</div>
+                                        <h3 class="font-display text-3xl font-semibold text-white">Falcon A1 Pro <span class="text-amber-400">20W</span></h3>
+                                        <p class="mt-2 text-sm text-slate-500">Creality enclosed laser cutter &amp; engraver</p>
+                                    </div>
+                                    <div class="grid h-12 w-12 shrink-0 place-items-center border border-amber-400/25 bg-amber-400/[.06] text-amber-400 cut-corners"><i data-lucide="focus" class="h-6 w-6" aria-hidden="true"></i></div>
+                                </div>
+
+                                <div class="mt-8 space-y-3" role="group" aria-label="คุณสมบัติ Creality Falcon A1 Pro 20W">
+                                    <button type="button" class="feature-button w-full rounded-xl border border-slate-700/70 bg-slate-950/50 p-4 text-left transition" data-tone="amber" data-feature="laserpower" aria-pressed="false">
+                                        <span class="flex items-center justify-between gap-4"><span><strong class="block text-sm font-semibold text-white">20W Dual-Laser Power</strong><span class="mt-1 block text-xs text-slate-500">กำลังสำหรับตัดและแกะสลักรายละเอียดคมชัด</span></span><i data-lucide="zap" class="h-5 w-5 shrink-0 text-amber-400" aria-hidden="true"></i></span>
+                                    </button>
+                                    <button type="button" class="feature-button w-full rounded-xl border border-slate-700/70 bg-slate-950/50 p-4 text-left transition" data-tone="amber" data-feature="safety" aria-pressed="false">
+                                        <span class="flex items-center justify-between gap-4"><span><strong class="block text-sm font-semibold text-white">Fully Enclosed Safety Cover with Filtration</strong><span class="mt-1 block text-xs text-slate-500">ฝาครอบนิรภัยพร้อมระบบกรองในตัว</span></span><i data-lucide="shield-check" class="h-5 w-5 shrink-0 text-amber-400" aria-hidden="true"></i></span>
+                                    </button>
+                                    <button type="button" class="feature-button w-full rounded-xl border border-slate-700/70 bg-slate-950/50 p-4 text-left transition" data-tone="amber" data-feature="workarea" aria-pressed="false">
+                                        <span class="flex items-center justify-between gap-4"><span><strong class="block text-sm font-semibold text-white">358 × 268 mm Working Area</strong><span class="mt-1 block text-xs text-slate-500">พื้นที่ทำงานสูงสุดสำหรับอะคริลิก ไม้ และหนัง</span></span><i data-lucide="maximize" class="h-5 w-5 shrink-0 text-amber-400" aria-hidden="true"></i></span>
+                                    </button>
+                                </div>
+                                <p class="mt-5 border-l border-amber-400/30 pl-4 text-xs leading-6 text-slate-500">เหมาะสำหรับแกะสลักโลโก้บนชิ้นงานพิมพ์ 3D รวมถึงตัด/แกะสลัก Acrylic, Wood และ Leather ที่ผ่านการตรวจสอบวัสดุ</p>
+                            </div>
+                        </article>
+                    </div>
+
+                    <div id="featureReadout" class="reveal mt-5 grid gap-5 border border-white/[.08] bg-slate-950/70 p-5 sm:grid-cols-[auto_1fr_auto] sm:items-center sm:p-6 cut-corners" aria-live="polite">
+                        <div id="featureReadoutIcon" class="grid h-12 w-12 place-items-center border border-cyan/25 bg-cyan/[.06] text-cyan cut-corners"><i data-lucide="thermometer-sun" class="h-6 w-6" aria-hidden="true"></i></div>
+                        <div>
+                            <p id="featureReadoutEyebrow" class="tech-label text-[10px] text-cyan">Material Stability</p>
+                            <h4 id="featureReadoutTitle" class="mt-1 font-display text-lg font-semibold text-white">มั่นใจขึ้นกับชิ้นงานวัสดุวิศวกรรม</h4>
+                            <p id="featureReadoutBody" class="mt-1 text-sm leading-6 text-slate-500">Chamber อุ่นแบบ Active ช่วยควบคุมอุณหภูมิรอบชิ้นงาน ลดความเสี่ยงการหดตัวและโก่งงอเมื่อพิมพ์ ABS หรือ ASA</p>
+                        </div>
+                        <div id="featureReadoutMetric" class="font-display text-2xl font-semibold text-cyan sm:text-right">65°C</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="materials" class="border-y border-white/[.06] bg-slate-950/55 py-20 sm:py-28">
+            <div class="mx-auto max-w-7xl px-5 sm:px-8">
+                <div class="reveal mx-auto max-w-3xl text-center">
+                    <p class="tech-label text-xs text-cyan">Material Intelligence</p>
+                    <h2 class="mt-3 font-display text-3xl font-semibold tracking-tight text-white sm:text-5xl">เลือกวัสดุให้ตรงกับงาน ไม่ใช่แค่ตรงกับสี</h2>
+                    <p class="mt-5 text-base leading-8 text-slate-500">เปรียบเทียบวัสดุ งานที่เหมาะสม และเฉดสีพร้อมใช้งาน ก่อนส่งไฟล์เพื่อประเมินขั้นสุดท้าย</p>
+                </div>
+
+                <div class="reveal mt-10 flex justify-center">
+                    <div class="inline-grid w-full max-w-xl grid-cols-2 rounded-xl border border-white/[.08] bg-slate-900/70 p-1.5" role="tablist" aria-label="ประเภทวัสดุ">
+                        <button id="materialsTab3d" type="button" role="tab" aria-selected="true" aria-controls="materialsPanel3d" data-material-tab="3d" data-tone="cyan" class="tab-trigger rounded-lg px-3 py-3 text-sm font-semibold text-slate-500 transition">3D Printing Materials</button>
+                        <button id="materialsTabLaser" type="button" role="tab" aria-selected="false" aria-controls="materialsPanelLaser" data-material-tab="laser" data-tone="amber" class="tab-trigger rounded-lg px-3 py-3 text-sm font-semibold text-slate-500 transition">Laser Materials</button>
+                    </div>
+                </div>
+
+                <div id="materialsPanel3d" class="mt-8 grid gap-6 lg:grid-cols-2" role="tabpanel" aria-labelledby="materialsTab3d">
+                    <article class="glass-panel reveal p-6 sm:p-8 cut-corners">
+                        <div class="flex flex-col justify-between gap-5 sm:flex-row sm:items-start">
+                            <div>
+                                <div class="mb-3 inline-flex items-center gap-2 text-xs font-semibold uppercase tracking-widest text-cyan"><span class="h-1.5 w-1.5 rounded-full bg-cyan shadow-[0_0_10px_#00f2fe]"></span> General Purpose</div>
+                                <h3 class="font-display text-3xl font-semibold text-white">PLA Basic</h3>
+                                <p class="mt-2 max-w-md text-sm leading-6 text-slate-500">เหมาะที่สุดสำหรับโมเดลหลายสี งานโชว์ และ Visual Prototype ที่ต้องการผิวสวยและรายละเอียดชัด</p>
+                            </div>
+                            <div class="shrink-0 border border-cyan/20 bg-cyan/[.055] px-4 py-3 text-right cut-corners"><strong class="font-display text-2xl text-cyan">3.0</strong><span class="ml-1 text-sm text-slate-400">THB/g</span></div>
+                        </div>
+                        <div class="mt-7 grid grid-cols-2 gap-3 text-xs sm:grid-cols-3">
+                            <div class="rounded-lg border border-white/[.07] bg-white/[.025] p-3"><i data-lucide="palette" class="mb-2 h-4 w-4 text-cyan" aria-hidden="true"></i><span class="text-slate-400">Multi-color Ready</span></div>
+                            <div class="rounded-lg border border-white/[.07] bg-white/[.025] p-3"><i data-lucide="sparkles" class="mb-2 h-4 w-4 text-cyan" aria-hidden="true"></i><span class="text-slate-400">Visual Quality</span></div>
+                            <div class="col-span-2 rounded-lg border border-white/[.07] bg-white/[.025] p-3 sm:col-span-1"><i data-lucide="scan-search" class="mb-2 h-4 w-4 text-cyan" aria-hidden="true"></i><span class="text-slate-400">Prototype Detail</span></div>
+                        </div>
+                        <div class="mt-7 border-t border-white/[.07] pt-6">
+                            <div class="mb-4 flex items-center justify-between"><p class="text-xs font-semibold uppercase tracking-[.14em] text-slate-400">17 Available Colors</p><p class="text-[10px] text-slate-600">แตะสีเพื่อดูชื่อ</p></div>
+                            <div id="plaSwatches" class="flex flex-wrap gap-2.5" aria-label="สี PLA Basic"></div>
+                            <p id="plaColorLabel" class="mt-4 min-h-5 text-xs font-medium text-cyan" aria-live="polite">Cobalt Blue</p>
+                        </div>
+                    </article>
+
+                    <article class="glass-panel reveal p-6 sm:p-8 cut-corners" style="transition-delay:100ms">
+                        <div class="flex flex-col justify-between gap-5 sm:flex-row sm:items-start">
+                            <div>
+                                <div class="mb-3 inline-flex items-center gap-2 text-xs font-semibold uppercase tracking-widest text-sky-300"><span class="h-1.5 w-1.5 rounded-full bg-sky-300 shadow-[0_0_10px_#7dd3fc]"></span> Functional Grade</div>
+                                <h3 class="font-display text-3xl font-semibold text-white">PETG Basic</h3>
+                                <p class="mt-2 max-w-md text-sm leading-6 text-slate-500">เหมาะสำหรับชิ้นส่วนใช้งานจริง ต้องการความเหนียว ทนแรงกระแทก และรับความร้อนได้ดีกว่า PLA</p>
+                            </div>
+                            <div class="shrink-0 border border-sky-300/20 bg-sky-300/[.055] px-4 py-3 text-right cut-corners"><strong class="font-display text-2xl text-sky-300">3.5</strong><span class="ml-1 text-sm text-slate-400">THB/g</span></div>
+                        </div>
+                        <div class="mt-7 grid grid-cols-2 gap-3 text-xs sm:grid-cols-3">
+                            <div class="rounded-lg border border-white/[.07] bg-white/[.025] p-3"><i data-lucide="hammer" class="mb-2 h-4 w-4 text-sky-300" aria-hidden="true"></i><span class="text-slate-400">Impact Resistant</span></div>
+                            <div class="rounded-lg border border-white/[.07] bg-white/[.025] p-3"><i data-lucide="flame" class="mb-2 h-4 w-4 text-sky-300" aria-hidden="true"></i><span class="text-slate-400">Heat Resistant</span></div>
+                            <div class="col-span-2 rounded-lg border border-white/[.07] bg-white/[.025] p-3 sm:col-span-1"><i data-lucide="wrench" class="mb-2 h-4 w-4 text-sky-300" aria-hidden="true"></i><span class="text-slate-400">Functional Parts</span></div>
+                        </div>
+                        <div class="mt-7 border-t border-white/[.07] pt-6">
+                            <div class="mb-4 flex items-center justify-between"><p class="text-xs font-semibold uppercase tracking-[.14em] text-slate-400">12 Available Colors</p><p class="text-[10px] text-slate-600">แตะสีเพื่อดูชื่อ</p></div>
+                            <div id="petgSwatches" class="flex flex-wrap gap-2.5" aria-label="สี PETG Basic"></div>
+                            <p id="petgColorLabel" class="mt-4 min-h-5 text-xs font-medium text-sky-300" aria-live="polite">Clear / Transparent</p>
+                        </div>
+                    </article>
+                </div>
+
+                <div id="materialsPanelLaser" class="mt-8 hidden grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-4" role="tabpanel" aria-labelledby="materialsTabLaser" hidden>
+                    <article class="glass-panel p-6 transition hover:-translate-y-1 hover:border-amber-400/30 cut-corners">
+                        <div class="mb-6 grid h-11 w-11 place-items-center border border-amber-400/25 bg-amber-400/[.06] text-amber-400 cut-corners"><i data-lucide="panels-top-left" class="h-5 w-5" aria-hidden="true"></i></div>
+                        <h3 class="font-display text-xl font-semibold text-white">Acrylic</h3>
+                        <p class="mt-2 min-h-12 text-sm leading-6 text-slate-500">ป้าย โลโก้ Display และชิ้นส่วนตกแต่ง</p>
+                        <div class="mt-5 flex flex-wrap gap-2"><span class="rounded-full border border-amber-400/20 bg-amber-400/[.06] px-2.5 py-1 text-[10px] text-amber-200">CUTTING</span><span class="rounded-full border border-amber-400/20 bg-amber-400/[.06] px-2.5 py-1 text-[10px] text-amber-200">ENGRAVING</span></div>
+                    </article>
+                    <article class="glass-panel p-6 transition hover:-translate-y-1 hover:border-amber-400/30 cut-corners">
+                        <div class="mb-6 grid h-11 w-11 place-items-center border border-amber-400/25 bg-amber-400/[.06] text-amber-400 cut-corners"><i data-lucide="trees" class="h-5 w-5" aria-hidden="true"></i></div>
+                        <h3 class="font-display text-xl font-semibold text-white">Wood / MDF</h3>
+                        <p class="mt-2 min-h-12 text-sm leading-6 text-slate-500">บรรจุภัณฑ์ โมเดล สื่อหน้าร้าน และของขวัญ</p>
+                        <div class="mt-5 flex flex-wrap gap-2"><span class="rounded-full border border-amber-400/20 bg-amber-400/[.06] px-2.5 py-1 text-[10px] text-amber-200">CUTTING</span><span class="rounded-full border border-amber-400/20 bg-amber-400/[.06] px-2.5 py-1 text-[10px] text-amber-200">ENGRAVING</span></div>
+                    </article>
+                    <article class="glass-panel p-6 transition hover:-translate-y-1 hover:border-amber-400/30 cut-corners">
+                        <div class="mb-6 grid h-11 w-11 place-items-center border border-amber-400/25 bg-amber-400/[.06] text-amber-400 cut-corners"><i data-lucide="wallet-cards" class="h-5 w-5" aria-hidden="true"></i></div>
+                        <h3 class="font-display text-xl font-semibold text-white">Leather</h3>
+                        <p class="mt-2 min-h-12 text-sm leading-6 text-slate-500">Personalization โลโก้ ลายเส้น และงาน Marking</p>
+                        <div class="mt-5 flex flex-wrap gap-2"><span class="rounded-full border border-amber-400/20 bg-amber-400/[.06] px-2.5 py-1 text-[10px] text-amber-200">ENGRAVING</span><span class="rounded-full border border-amber-400/20 bg-amber-400/[.06] px-2.5 py-1 text-[10px] text-amber-200">MARKING</span></div>
+                    </article>
+                    <article class="glass-panel p-6 transition hover:-translate-y-1 hover:border-amber-400/30 cut-corners">
+                        <div class="mb-6 grid h-11 w-11 place-items-center border border-amber-400/25 bg-amber-400/[.06] text-amber-400 cut-corners"><i data-lucide="badge" class="h-5 w-5" aria-hidden="true"></i></div>
+                        <h3 class="font-display text-xl font-semibold text-white">Custom Anodized Aluminum</h3>
+                        <p class="mt-2 min-h-12 text-sm leading-6 text-slate-500">ป้าย Asset Tag, Nameplate และ Custom Branding</p>
+                        <div class="mt-5 flex flex-wrap gap-2"><span class="rounded-full border border-amber-400/20 bg-amber-400/[.06] px-2.5 py-1 text-[10px] text-amber-200">CUSTOM</span><span class="rounded-full border border-amber-400/20 bg-amber-400/[.06] px-2.5 py-1 text-[10px] text-amber-200">MARKING</span></div>
+                    </article>
+                    <div class="border border-amber-400/20 bg-amber-400/[.05] p-4 text-xs leading-6 text-amber-100/75 sm:col-span-2 lg:col-span-4 cut-corners">
+                        <div class="flex gap-3"><i data-lucide="shield-alert" class="mt-0.5 h-4 w-4 shrink-0 text-amber-400" aria-hidden="true"></i><p><strong class="text-amber-200">Material safety check:</strong> ความสามารถในการตัดขึ้นกับชนิด สี และความหนาของวัสดุ ไม่รับตัด PVC / Vinyl หรือวัสดุที่ไม่ทราบส่วนประกอบ และงานอะลูมิเนียมเป็นการ Marking บนผิว Anodized ไม่ใช่การตัดโลหะ</p></div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="estimator" class="py-20 sm:py-28">
+            <div class="mx-auto max-w-7xl px-5 sm:px-8">
+                <div class="grid gap-10 lg:grid-cols-[.75fr_1.25fr] lg:gap-14">
+                    <div class="reveal lg:sticky lg:top-28 lg:self-start">
+                        <p class="tech-label text-xs text-cyan">Advanced Instant Estimator</p>
+                        <h2 class="mt-3 font-display text-4xl font-semibold tracking-tight text-white sm:text-5xl">รู้ช่วงราคาก่อน<br class="hidden lg:block">ส่งไฟล์จริง</h2>
+                        <p class="mt-5 max-w-lg text-base leading-8 text-slate-500">ปรับวัสดุ น้ำหนัก สี หรือความซับซ้อน แล้วดูราคาโดยประมาณแบบทันที ระบบใช้กฎค่าบริการขั้นต่ำต่อออเดอร์ 250 บาทอย่างเคร่งครัด</p>
+
+                        <div class="mt-9 space-y-4">
+                            <div class="flex gap-4"><span class="grid h-8 w-8 shrink-0 place-items-center rounded-full border border-cyan/25 bg-cyan/[.06] font-display text-xs font-bold text-cyan">01</span><div><h3 class="text-sm font-semibold text-white">เลือกกระบวนการ</h3><p class="mt-1 text-sm leading-6 text-slate-500">3D Printing, Laser หรือรวมทั้งสองบริการ</p></div></div>
+                            <div class="flex gap-4"><span class="grid h-8 w-8 shrink-0 place-items-center rounded-full border border-cyan/25 bg-cyan/[.06] font-display text-xs font-bold text-cyan">02</span><div><h3 class="text-sm font-semibold text-white">กำหนดรายละเอียด</h3><p class="mt-1 text-sm leading-6 text-slate-500">เครื่องคำนวณจะแสดงสูตรและค่าปรับทุกบรรทัด</p></div></div>
+                            <div class="flex gap-4"><span class="grid h-8 w-8 shrink-0 place-items-center rounded-full border border-amber-400/25 bg-amber-400/[.06] font-display text-xs font-bold text-amber-300">03</span><div><h3 class="text-sm font-semibold text-white">ส่งไฟล์เพื่อยืนยัน</h3><p class="mt-1 text-sm leading-6 text-slate-500">ราคาจริงพิจารณาจาก geometry, support, finishing และจำนวนผลิต</p></div></div>
+                        </div>
+
+                        <div class="mt-9 border border-amber-400/20 bg-amber-400/[.05] p-4 text-sm text-amber-100/80 cut-corners">
+                            <div class="flex gap-3"><i data-lucide="info" class="mt-0.5 h-4 w-4 shrink-0 text-amber-400" aria-hidden="true"></i><p><strong class="font-semibold text-amber-200">โปร่งใสทุกขั้นตอน:</strong> ราคาในหน้านี้เป็นค่าประเมินเบื้องต้นก่อนตรวจไฟล์ โดยภาษีมูลค่าเพิ่ม ค่าจัดส่ง และบริการเก็บผิวพิเศษจะระบุในใบเสนอราคาอย่างเป็นทางการ</p></div>
+                        </div>
+                    </div>
+
+                    <div class="glass-panel reveal overflow-hidden shadow-cyan-glow cut-corners" style="transition-delay:100ms">
+                        <div class="border-b border-white/[.07] p-4 sm:p-6">
+                            <div class="grid grid-cols-2 gap-2 rounded-xl border border-white/[.08] bg-slate-950/70 p-1.5" role="tablist" aria-label="เครื่องคำนวณราคา">
+                                <button id="estimatorTab3d" type="button" role="tab" aria-selected="true" aria-controls="estimatePanel3d" data-estimator-tab="3d" data-tone="cyan" class="tab-trigger flex items-center justify-center gap-2 rounded-lg px-2 py-3 text-xs font-semibold text-slate-500 transition sm:px-3 sm:text-sm"><i data-lucide="box" class="hidden h-4 w-4 sm:block" aria-hidden="true"></i><span>3D Printing Estimate</span></button>
+                                <button id="estimatorTabLaser" type="button" role="tab" aria-selected="false" aria-controls="estimatePanelLaser" data-estimator-tab="laser" data-tone="amber" class="tab-trigger flex items-center justify-center gap-2 rounded-lg px-2 py-3 text-xs font-semibold text-slate-500 transition sm:px-3 sm:text-sm"><i data-lucide="scan-line" class="hidden h-4 w-4 sm:block" aria-hidden="true"></i><span>Laser Service Estimate</span></button>
+                            </div>
+                        </div>
+
+                        <div class="grid xl:grid-cols-[1.08fr_.92fr]">
+                            <div class="p-5 sm:p-7 xl:border-r xl:border-white/[.07]">
+                                <div id="estimatePanel3d" role="tabpanel" aria-labelledby="estimatorTab3d">
+                                    <div class="mb-7">
+                                        <p class="tech-label text-[10px] text-cyan">Additive Estimate</p>
+                                        <h3 class="mt-2 text-xl font-semibold text-white">รายละเอียดงานพิมพ์ 3D</h3>
+                                    </div>
+
+                                    <div class="space-y-5">
+                                        <label class="block">
+                                            <span class="mb-2 block text-sm font-medium text-slate-300">วัสดุ</span>
+                                            <select id="printMaterial" class="field" aria-describedby="printMaterialHint">
+                                                <option value="3" data-name="PLA Basic">PLA Basic — 3.0 THB/g</option>
+                                                <option value="3.5" data-name="PETG Basic">PETG Basic — 3.5 THB/g</option>
+                                            </select>
+                                            <span id="printMaterialHint" class="mt-2 block text-xs text-slate-600">คิดราคาตามน้ำหนักวัสดุที่ใช้โดยประมาณ</span>
+                                        </label>
+
+                                        <label class="block">
+                                            <span class="mb-2 flex items-center justify-between gap-3 text-sm font-medium text-slate-300"><span>น้ำหนักโดยประมาณ</span><span id="weightLive" class="font-display text-xs text-cyan">80 g</span></span>
+                                            <div class="relative"><input id="printWeight" type="number" min="0.1" max="100000" step="0.1" value="80" inputmode="decimal" required class="field pr-14" aria-describedby="weightHint weightError"><span class="pointer-events-none absolute right-4 top-1/2 -translate-y-1/2 text-sm text-slate-600">gram</span></div>
+                                            <span id="weightHint" class="mt-2 block text-xs text-slate-600">หากไม่ทราบน้ำหนัก ส่งไฟล์เพื่อให้ทีมคำนวณจากโมเดล</span>
+                                            <span id="weightError" class="mt-2 hidden text-xs text-rose-400" role="alert">กรุณากรอกน้ำหนักมากกว่า 0 และไม่เกิน 100,000 กรัม</span>
+                                        </label>
+
+                                        <div>
+                                            <span class="mb-2 block text-sm font-medium text-slate-300">จำนวนสีเพิ่มเติม</span>
+                                            <div class="flex items-center justify-between gap-4 rounded-xl border border-slate-700/70 bg-slate-950/70 p-2">
+                                                <button id="colorsMinus" type="button" class="grid h-10 w-10 place-items-center rounded-lg border border-slate-700 text-slate-300 transition hover:border-cyan/40 hover:text-cyan disabled:cursor-not-allowed disabled:opacity-30" aria-label="ลดจำนวนสีเพิ่มเติม"><i data-lucide="minus" class="h-4 w-4" aria-hidden="true"></i></button>
+                                                <div class="text-center"><output id="extraColors" class="number-tabular font-display text-xl font-semibold text-white" aria-live="polite">0</output><span class="ml-2 text-xs text-slate-500">สี × 50 THB</span></div>
+                                                <button id="colorsPlus" type="button" class="grid h-10 w-10 place-items-center rounded-lg border border-slate-700 text-slate-300 transition hover:border-cyan/40 hover:text-cyan disabled:cursor-not-allowed disabled:opacity-30" aria-label="เพิ่มจำนวนสีเพิ่มเติม"><i data-lucide="plus" class="h-4 w-4" aria-hidden="true"></i></button>
+                                            </div>
+                                            <p class="mt-2 text-xs text-slate-600">สีหลัก 1 สีรวมในราคาแล้ว คิดเฉพาะสีที่เพิ่ม (เครื่องคำนวณรองรับสูงสุด 20 สีเพิ่มเติม)</p>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div id="estimatePanelLaser" class="hidden" role="tabpanel" aria-labelledby="estimatorTabLaser" hidden>
+                                    <div class="mb-7">
+                                        <p class="tech-label text-[10px] text-amber-400">Laser Estimate</p>
+                                        <h3 class="mt-2 text-xl font-semibold text-white">รายละเอียดงานเลเซอร์</h3>
+                                    </div>
+
+                                    <div class="space-y-5">
+                                        <label class="block">
+                                            <span class="mb-2 block text-sm font-medium text-slate-300">ประเภทบริการ</span>
+                                            <select id="laserService" class="field focus:!border-amber-400 focus:!shadow-[0_0_0_3px_rgba(245,158,11,.10)]">
+                                                <option value="150" data-name="Engraving Only">Engraving Only — 150 THB base</option>
+                                                <option value="250" data-name="Cutting & Processing">Cutting &amp; Processing — 250 THB base</option>
+                                            </select>
+                                        </label>
+
+                                        <label class="block">
+                                            <span class="mb-2 block text-sm font-medium text-slate-300">ประเภทวัสดุ</span>
+                                            <select id="laserMaterial" class="field focus:!border-amber-400 focus:!shadow-[0_0_0_3px_rgba(245,158,11,.10)]" aria-describedby="laserMaterialHint">
+                                                <option value="acrylic" data-name="Acrylic">Acrylic</option>
+                                                <option value="wood" data-name="Wood / MDF">Wood / MDF</option>
+                                                <option value="leather" data-name="Leather">Leather</option>
+                                                <option value="aluminum" data-name="Anodized Aluminum">Anodized Aluminum</option>
+                                            </select>
+                                            <span id="laserMaterialHint" class="mt-2 block text-xs text-slate-600">ใช้ระบุวัสดุสำหรับตรวจสอบความเข้ากันได้ ราคาประเมินคำนวณจากฐานบริการ × Time / Complexity Factor</span>
+                                        </label>
+
+                                        <label class="block">
+                                            <span class="mb-2 flex items-center justify-between gap-3 text-sm font-medium text-slate-300"><span>เวลา / ความซับซ้อน</span><output id="complexityLive" class="rounded-full border border-amber-400/20 bg-amber-400/[.06] px-2.5 py-1 font-display text-xs text-amber-300">1.00×</output></span>
+                                            <input id="laserComplexity" type="range" min="1" max="3" step="0.25" value="1" class="w-full" aria-describedby="complexityHint">
+                                            <span class="mt-2 flex justify-between text-[10px] uppercase tracking-wider text-slate-600"><span>Simple</span><span>Standard</span><span>Complex</span></span>
+                                            <span id="complexityHint" class="mt-2 block text-xs text-slate-600">ใช้ Factor สูงขึ้นเมื่อลายละเอียดมาก พื้นที่ใหญ่ หรือต้องเดินเครื่องนาน</span>
+                                        </label>
+                                    </div>
+                                </div>
+
+                                <label class="mt-7 flex cursor-pointer items-start gap-3 border-t border-white/[.07] pt-6">
+                                    <input id="combineServices" type="checkbox" class="mt-1 h-4 w-4 rounded border-slate-600 bg-slate-900 text-cyan focus:ring-cyan">
+                                    <span><span class="block text-sm font-semibold text-white">รวมยอด 3D Printing + Laser Service</span><span class="mt-1 block text-xs leading-5 text-slate-600">รวมค่าที่ตั้งไว้ในทั้งสองแท็บก่อนใช้ขั้นต่ำครั้งเดียว เช่น งานแกะโลโก้บนชิ้นงาน 3D</span></span>
+                                </label>
+
+                                <div id="combinedSummary" class="mt-4 hidden border border-amber-400/20 bg-amber-400/[.045] p-4 cut-corners" aria-live="polite">
+                                    <p class="text-xs font-semibold text-amber-200">ตรวจค่าของทั้งสองบริการก่อนใช้ยอดรวม</p>
+                                    <div class="mt-3 space-y-3">
+                                        <div class="flex flex-col gap-2 rounded-lg border border-white/[.07] bg-slate-950/45 p-3 sm:flex-row sm:items-center sm:justify-between">
+                                            <div class="min-w-0"><span class="tech-label block text-[9px] text-cyan">3D Printing</span><span id="combined3dSummary" class="mt-1 block text-xs leading-5 text-slate-400"></span></div>
+                                            <button type="button" data-open-estimator="3d" class="shrink-0 self-start rounded-lg border border-cyan/25 px-3 py-2 text-[11px] font-semibold text-cyan transition hover:bg-cyan/[.07] sm:self-center">ตรวจ / แก้ไข</button>
+                                        </div>
+                                        <div class="flex flex-col gap-2 rounded-lg border border-white/[.07] bg-slate-950/45 p-3 sm:flex-row sm:items-center sm:justify-between">
+                                            <div class="min-w-0"><span class="tech-label block text-[9px] text-amber-400">Laser Service</span><span id="combinedLaserSummary" class="mt-1 block text-xs leading-5 text-slate-400"></span></div>
+                                            <button type="button" data-open-estimator="laser" class="shrink-0 self-start rounded-lg border border-amber-400/25 px-3 py-2 text-[11px] font-semibold text-amber-300 transition hover:bg-amber-400/[.07] sm:self-center">ตรวจ / แก้ไข</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <aside class="relative overflow-hidden border-t border-white/[.07] bg-slate-950/55 p-5 sm:p-7 xl:border-t-0" aria-label="สรุปราคา">
+                                <div class="absolute right-0 top-0 h-40 w-40 bg-cyan/[.05] blur-3xl"></div>
+                                <div class="relative">
+                                    <div class="flex items-center justify-between">
+                                        <p class="tech-label text-[10px] text-slate-500">Live Estimate</p>
+                                        <span id="estimateModeBadge" class="rounded-full border border-cyan/20 bg-cyan/[.05] px-2.5 py-1 text-[10px] font-semibold text-cyan">3D PRINTING</span>
+                                    </div>
+
+                                    <div class="mt-8">
+                                        <p class="text-xs text-slate-500">Total Estimated Price</p>
+                                        <div class="mt-1 flex items-end gap-2"><span id="finalPrice" class="number-tabular font-display text-5xl font-semibold tracking-tight text-white sm:text-6xl" aria-live="polite">250</span><span class="pb-2 font-display text-sm font-semibold text-cyan">THB</span></div>
+                                    </div>
+
+                                    <div id="minimumNotice" class="mt-5 border border-amber-400/25 bg-amber-400/[.07] p-3 text-xs leading-5 text-amber-100 cut-corners" role="status">
+                                        <div class="flex gap-2"><i data-lucide="triangle-alert" class="mt-0.5 h-4 w-4 shrink-0 text-amber-400" aria-hidden="true"></i><p><strong class="block text-amber-200">Minimum charge per order is 250 THB</strong>ยอดที่คำนวณได้ต่ำกว่าค่าบริการขั้นต่ำ ระบบจึงปรับยอดรวมเป็น 250 บาท</p></div>
+                                    </div>
+
+                                    <div class="mt-6 space-y-3 border-y border-white/[.07] py-5 text-sm">
+                                        <div class="flex items-start justify-between gap-4"><span id="lineItemPrimaryLabel" class="text-slate-500">PLA Basic · 80g × 3.0</span><span id="lineItemPrimaryValue" class="number-tabular shrink-0 text-slate-300">240 THB</span></div>
+                                        <div id="lineItemSecondary" class="flex items-start justify-between gap-4"><span id="lineItemSecondaryLabel" class="text-slate-500">สีเพิ่มเติม · 0 × 50</span><span id="lineItemSecondaryValue" class="number-tabular shrink-0 text-slate-300">0 THB</span></div>
+                                        <div class="flex items-start justify-between gap-4"><span class="text-slate-500">ยอดก่อนขั้นต่ำ</span><span id="rawSubtotal" class="number-tabular shrink-0 text-slate-300">240 THB</span></div>
+                                        <div id="minimumAdjustmentRow" class="flex items-start justify-between gap-4"><span class="text-amber-300/70">ปรับตามขั้นต่ำ</span><span id="minimumAdjustment" class="number-tabular shrink-0 text-amber-300">+10 THB</span></div>
+                                    </div>
+
+                                    <p class="mt-5 text-[11px] leading-5 text-slate-600">* ราคาประเมินอัตโนมัติสำหรับวางแผนงบประมาณ ราคาสุทธิยืนยันหลังตรวจไฟล์และรายละเอียดงาน</p>
+
+                                    <button id="copyEstimate" type="button" class="mt-5 inline-flex w-full items-center justify-center gap-2 border border-slate-700 bg-slate-900 px-4 py-3 text-sm font-semibold text-white transition hover:border-cyan/40 hover:bg-cyan/[.05] disabled:cursor-not-allowed disabled:opacity-40 cut-corners">
+                                        <i data-lucide="copy" class="h-4 w-4 text-cyan" aria-hidden="true"></i>
+                                        <span>คัดลอกสรุปราคา</span>
+                                    </button>
+                                    <p id="copyStatus" class="mt-2 min-h-5 text-center text-xs text-emerald-400" aria-live="polite"></p>
+                                </div>
+                            </aside>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="quote" class="border-t border-white/[.06] bg-slate-950/65 py-20 sm:py-28">
+            <div class="mx-auto max-w-7xl px-5 sm:px-8">
+                <div class="grid gap-8 lg:grid-cols-[1.1fr_.9fr]">
+                    <div class="glass-panel reveal p-6 sm:p-9 cut-corners">
+                        <div class="flex flex-col justify-between gap-5 sm:flex-row sm:items-start">
+                            <div>
+                                <p class="tech-label text-xs text-cyan">Official Quotation</p>
+                                <h2 class="mt-3 font-display text-3xl font-semibold text-white sm:text-4xl">ส่งไฟล์ให้ทีมประเมินจริง</h2>
+                                <p class="mt-3 max-w-xl text-sm leading-7 text-slate-500">ลากไฟล์ลงในพื้นที่ด้านล่าง หรือเลือกจากอุปกรณ์ ระบบจะเตรียมรายการไฟล์สำหรับแนบขอใบเสนอราคา</p>
+                            </div>
+                            <div class="flex shrink-0 items-center gap-2 rounded-full border border-white/[.08] bg-white/[.025] px-3 py-2 text-[10px] text-slate-500"><i data-lucide="lock-keyhole" class="h-3.5 w-3.5 text-cyan" aria-hidden="true"></i> FILES STAY ON DEVICE</div>
+                        </div>
+
+                        <input id="fileInput" type="file" class="sr-only" multiple accept=".stl,.step,.stp,.dxf,.ai" aria-describedby="fileHelp">
+                        <div id="dropZone" class="mt-8 cursor-pointer rounded-2xl border border-dashed border-slate-600/80 bg-slate-950/55 px-5 py-12 text-center transition hover:border-cyan/50 hover:bg-cyan/[.025]" role="button" tabindex="0" aria-label="ลากไฟล์มาวาง หรือกดเพื่อเลือกไฟล์">
+                            <div class="mx-auto grid h-14 w-14 place-items-center rounded-xl border border-cyan/25 bg-cyan/[.06] text-cyan"><i data-lucide="file-up" class="h-7 w-7" aria-hidden="true"></i></div>
+                            <h3 class="mt-5 text-base font-semibold text-white">Drop your production files here</h3>
+                            <p class="mt-2 text-sm text-slate-500">ลากและวาง หรือ <span class="font-semibold text-cyan">เลือกไฟล์จากเครื่อง</span></p>
+                            <div class="mt-5 flex flex-wrap justify-center gap-2 text-[10px] font-semibold uppercase tracking-wider text-slate-500">
+                                <span class="rounded-full border border-slate-700 px-3 py-1.5">.STL</span>
+                                <span class="rounded-full border border-slate-700 px-3 py-1.5">.STEP / .STP</span>
+                                <span class="rounded-full border border-slate-700 px-3 py-1.5">.DXF</span>
+                                <span class="rounded-full border border-slate-700 px-3 py-1.5">.AI</span>
+                            </div>
+                            <p id="fileHelp" class="mt-4 text-[11px] text-slate-600">ไฟล์ยังไม่ถูกอัปโหลดจากเบราว์เซอร์นี้ กรุณาแนบผ่าน LINE หรือ Email ในขั้นตอนถัดไป</p>
+                        </div>
+
+                        <div id="fileQueueWrap" class="mt-6 hidden">
+                            <div class="mb-3 flex items-center justify-between"><h3 class="text-sm font-semibold text-white">ไฟล์ที่เลือก <span id="fileCount" class="ml-1 text-cyan">0</span></h3><button id="clearFiles" type="button" class="text-xs text-slate-500 transition hover:text-rose-400">ล้างรายการ</button></div>
+                            <ul id="fileQueue" class="space-y-2" aria-live="polite"></ul>
+                        </div>
+                        <p id="fileError" class="mt-3 min-h-5 text-xs text-rose-400" role="alert"></p>
+                    </div>
+
+                    <aside class="reveal flex flex-col justify-between overflow-hidden border border-amber-400/20 bg-gradient-to-br from-amber-400/[.09] via-slate-900/90 to-slate-950 p-6 shadow-amber-glow sm:p-9 cut-corners" style="transition-delay:100ms">
+                        <div>
+                            <div class="flex items-center gap-3">
+                                <div class="grid h-11 w-11 place-items-center border border-amber-400/30 bg-amber-400/[.08] text-amber-400 cut-corners"><i data-lucide="message-square-more" class="h-5 w-5" aria-hidden="true"></i></div>
+                                <div><p class="tech-label text-[10px] text-amber-300">Talk to a Specialist</p><h2 class="mt-1 font-display text-2xl font-semibold text-white">พร้อมเริ่มโปรเจกต์ของคุณ</h2></div>
+                            </div>
+
+                            <p class="mt-7 text-sm leading-7 text-slate-400">ส่งไฟล์พร้อมแจ้งจำนวนชิ้น วัสดุ สี ขนาด และวันใช้งาน ทีมจะตรวจสอบความเป็นไปได้และจัดทำใบเสนอราคาอย่างเป็นทางการ</p>
+
+                            <div class="mt-7 space-y-3 text-sm">
+                                <div class="flex items-center gap-3 border-b border-white/[.07] pb-3"><i data-lucide="check-circle-2" class="h-4 w-4 text-amber-400" aria-hidden="true"></i><span class="text-slate-300">ตรวจ Geometry และขนาดชิ้นงาน</span></div>
+                                <div class="flex items-center gap-3 border-b border-white/[.07] pb-3"><i data-lucide="check-circle-2" class="h-4 w-4 text-amber-400" aria-hidden="true"></i><span class="text-slate-300">แนะนำวัสดุและกระบวนการที่เหมาะสม</span></div>
+                                <div class="flex items-center gap-3"><i data-lucide="check-circle-2" class="h-4 w-4 text-amber-400" aria-hidden="true"></i><span class="text-slate-300">ออกใบเสนอราคาและใบกำกับภาษีเต็มรูปแบบ</span></div>
+                            </div>
+                        </div>
+
+                        <div class="mt-10 space-y-3">
+                            <a id="lineContact" href="https://line.me/R/ti/p/@YOUR_LINE_ID" target="_blank" rel="noopener noreferrer" class="group flex w-full items-center justify-between bg-[#06C755] px-5 py-4 font-semibold text-white transition hover:brightness-110 cut-corners">
+                                <span class="flex items-center gap-3"><i data-lucide="message-circle" class="h-5 w-5" aria-hidden="true"></i><span><span class="block text-sm">LINE Official Account</span><span id="lineContactLabel" class="block text-[10px] font-normal text-white/70">@YOUR_LINE_ID</span></span></span><i data-lucide="arrow-up-right" class="h-4 w-4 transition group-hover:translate-x-0.5 group-hover:-translate-y-0.5" aria-hidden="true"></i>
+                            </a>
+                            <a id="emailContact" href="mailto:sales@your-domain.com" class="group flex w-full items-center justify-between border border-slate-600 bg-slate-900/70 px-5 py-4 font-semibold text-white transition hover:border-cyan/40 hover:bg-cyan/[.04] cut-corners">
+                                <span class="flex items-center gap-3"><i data-lucide="mail" class="h-5 w-5 text-cyan" aria-hidden="true"></i><span><span class="block text-sm">Email for Quotation</span><span id="emailContactLabel" class="block text-[10px] font-normal text-slate-500">sales@your-domain.com</span></span></span><i data-lucide="arrow-up-right" class="h-4 w-4 transition group-hover:translate-x-0.5 group-hover:-translate-y-0.5" aria-hidden="true"></i>
+                            </a>
+                            <p class="pt-2 text-center text-[10px] leading-5 text-slate-600">โปรดแก้ไข LINE ID และ Email ในส่วน CONTACT_CONFIG ก่อนนำเว็บไซต์ขึ้นใช้งานจริง</p>
+                        </div>
+                    </aside>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="relative z-10 border-t border-white/[.07] bg-slate-950 py-10">
+        <div class="mx-auto flex max-w-7xl flex-col justify-between gap-7 px-5 sm:px-8 md:flex-row md:items-center">
+            <div class="flex items-center gap-3">
+                <span class="grid h-9 w-9 place-items-center border border-cyan/25 bg-cyan/[.05] font-display text-xs font-bold text-cyan cut-corners">A&amp;N</span>
+                <div><p class="text-sm font-semibold text-white">บริษัท เอ แอนด์ เอ็น จำกัด <span class="text-slate-600">(A&amp;N Co., Ltd.)</span></p><p class="mt-1 text-xs text-slate-600">Industrial 3D Printing &amp; Precision Laser Service</p></div>
+            </div>
+            <div class="flex flex-col gap-3 text-xs text-slate-600 sm:flex-row sm:items-center sm:gap-5">
+                <span class="inline-flex items-center gap-2"><i data-lucide="badge-check" class="h-3.5 w-3.5 text-amber-400" aria-hidden="true"></i> ออกใบกำกับภาษีเต็มรูปแบบ</span>
+                <span>© <span id="currentYear"></span> A&amp;N Co., Ltd. All rights reserved.</span>
+            </div>
+        </div>
+    </footer>
+
+    <div class="fixed inset-x-0 bottom-0 z-40 border-t border-white/[.08] bg-slate-950/95 p-3 backdrop-blur-xl md:hidden">
+        <div class="mx-auto grid max-w-md grid-cols-2 gap-2">
+            <a href="#estimator" class="inline-flex items-center justify-center gap-2 bg-cyan px-4 py-3 text-sm font-semibold text-slate-950 cut-corners"><i data-lucide="calculator" class="h-4 w-4" aria-hidden="true"></i>ประเมินราคา</a>
+            <a href="#quote" class="inline-flex items-center justify-center gap-2 border border-amber-400/30 bg-amber-400/[.06] px-4 py-3 text-sm font-semibold text-amber-200 cut-corners"><i data-lucide="file-up" class="h-4 w-4" aria-hidden="true"></i>ส่งไฟล์</a>
+        </div>
+    </div>
+
+    <script>
+        // Replace these two values before publishing the production website.
+        const CONTACT_CONFIG = {
+            lineId: '@YOUR_LINE_ID',
+            lineUrl: 'https://line.me/R/ti/p/@YOUR_LINE_ID',
+            email: 'sales@your-domain.com'
+        };
+
+        const MINIMUM_CHARGE = 250;
+        const EXTRA_COLOR_RATE = 50;
+        let activeEstimator = '3d';
+        let extraColorCount = 0;
+        let selectedFiles = [];
+
+        const money = new Intl.NumberFormat('th-TH', {
+            minimumFractionDigits: 0,
+            maximumFractionDigits: 2
+        });
+
+        const featureContent = {
+            chamber: {
+                eyebrow: 'Material Stability',
+                title: 'มั่นใจขึ้นกับชิ้นงานวัสดุวิศวกรรม',
+                body: 'Chamber อุ่นแบบ Active ช่วยควบคุมอุณหภูมิรอบชิ้นงาน ลดความเสี่ยงการหดตัวและโก่งงอเมื่อพิมพ์ ABS หรือ ASA',
+                metric: '65°C',
+                icon: 'thermometer-sun',
+                tone: 'cyan'
+            },
+            toolchanger: {
+                eyebrow: 'Multi-Material Efficiency',
+                title: 'สีมากขึ้น โดยทิ้งวัสดุน้อยลง',
+                body: 'ระบบเปลี่ยนหัวฉีดแม่เหล็ก 7 หัวช่วยสลับสีหรือวัสดุโดยไม่ต้อง purge ทุกครั้ง เหมาะกับโมเดลหลายสี งาน Label และชิ้นส่วนผสมวัสดุ',
+                metric: '−80% WASTE',
+                icon: 'replace',
+                tone: 'cyan'
+            },
+            corexy: {
+                eyebrow: 'High-Speed Motion',
+                title: 'ลด Lead Time โดยยังคงรายละเอียดชิ้นงาน',
+                body: 'โครงสร้าง CoreXY รองรับการเคลื่อนที่รวดเร็วและสมดุล ช่วยเพิ่ม Throughput สำหรับงานต้นแบบและงานผลิตซ้ำ',
+                metric: 'COREXY',
+                icon: 'move-3d',
+                tone: 'cyan'
+            },
+            laserpower: {
+                eyebrow: 'Dual-Laser Output',
+                title: 'ตัดและแกะสลักด้วยพลังงานที่สม่ำเสมอ',
+                body: 'กำลังเลเซอร์ 20W เหมาะกับการแกะโลโก้บนชิ้นงาน 3D รวมถึงตัดหรือแกะสลักอะคริลิก ไม้ MDF และหนังตามความเหมาะสมของวัสดุ',
+                metric: '20W',
+                icon: 'zap',
+                tone: 'amber'
+            },
+            safety: {
+                eyebrow: 'Enclosed Workflow',
+                title: 'กระบวนการเลเซอร์ที่ควบคุมได้มากขึ้น',
+                body: 'ฝาครอบเต็มระบบช่วยแยกพื้นที่ทำงาน พร้อมระบบกรองสำหรับจัดการควันและอนุภาคระหว่างการตัดหรือแกะสลัก',
+                metric: 'ENCLOSED',
+                icon: 'shield-check',
+                tone: 'amber'
+            },
+            workarea: {
+                eyebrow: 'Production Envelope',
+                title: 'รองรับตั้งแต่งานโลโก้ถึงแผ่นป้ายขนาดกลาง',
+                body: 'พื้นที่ทำงานสูงสุด 358 × 268 มม. เปิดโอกาสให้จัดวางหลายชิ้นในหนึ่งรอบ หรือผลิตชิ้นงานแผ่นที่มีขนาดใหญ่ขึ้น',
+                metric: '358×268 MM',
+                icon: 'maximize',
+                tone: 'amber'
+            }
+        };
+
+        const plaColors = [
+            ['Cobalt Blue', '#0047AB'], ['Cyan', '#00E5FF'], ['White', '#F8FAFC'],
+            ['Black', '#111827'], ['Red', '#EF4444'], ['Orange', '#F97316'],
+            ['Pink', '#F472B6'], ['Magenta', '#D946EF'], ['Purple', '#8B5CF6'],
+            ['Yellow', '#FACC15'], ['Neon Green', '#39FF14'], ['Dark Green', '#166534'],
+            ['Gray', '#6B7280'], ['Silver', '#CBD5E1'], ['Gold', '#D4AF37'],
+            ['Bronze', '#CD7F32'], ['Brown', '#7C4A2D']
+        ];
+
+        const petgColors = [
+            ['Clear / Transparent', 'transparent'], ['Black', '#111827'], ['White', '#F8FAFC'],
+            ['Gray', '#6B7280'], ['Silver', '#CBD5E1'], ['Red', '#EF4444'],
+            ['Blue', '#2563EB'], ['Dark Blue', '#1E3A8A'], ['Green', '#16A34A'],
+            ['Yellow', '#FACC15'], ['Orange', '#F97316'], ['Brown', '#7C4A2D']
+        ];
+
+        function optionName(selectElement) {
+            return selectElement.options[selectElement.selectedIndex].dataset.name;
+        }
+
+        function renderSwatches(containerId, labelId, colors, labelTone) {
+            const container = document.getElementById(containerId);
+            const label = document.getElementById(labelId);
+
+            colors.forEach(([name, value], index) => {
+                const swatch = document.createElement('button');
+                swatch.type = 'button';
+                swatch.className = `color-swatch${value === 'transparent' ? ' checkerboard' : ''}`;
+                swatch.style.backgroundColor = value === 'transparent' ? 'rgba(255,255,255,.35)' : value;
+                swatch.setAttribute('aria-label', name);
+                swatch.title = name;
+                swatch.addEventListener('click', () => {
+                    label.textContent = name;
+                    label.style.color = labelTone;
+                    container.querySelectorAll('.color-swatch').forEach(item => item.setAttribute('aria-pressed', 'false'));
+                    swatch.setAttribute('aria-pressed', 'true');
+                });
+                swatch.setAttribute('aria-pressed', index === 0 ? 'true' : 'false');
+                container.appendChild(swatch);
+            });
+        }
+
+        function setupTabs(triggerSelector, panelMap, onChange) {
+            const triggers = Array.from(document.querySelectorAll(triggerSelector));
+
+            function activate(trigger) {
+                triggers.forEach(item => {
+                    const active = item === trigger;
+                    item.setAttribute('aria-selected', String(active));
+                    item.tabIndex = active ? 0 : -1;
+                });
+
+                Object.entries(panelMap).forEach(([key, panelId]) => {
+                    const panel = document.getElementById(panelId);
+                    const show = key === trigger.dataset.materialTab || key === trigger.dataset.estimatorTab;
+                    panel.hidden = !show;
+                    panel.classList.toggle('hidden', !show);
+                    if (show && panelId === 'materialsPanelLaser') panel.classList.add('grid');
+                });
+
+                if (onChange) onChange(trigger);
+            }
+
+            triggers.forEach((trigger, index) => {
+                trigger.addEventListener('click', () => activate(trigger));
+                trigger.addEventListener('keydown', event => {
+                    if (!['ArrowLeft', 'ArrowRight', 'Home', 'End'].includes(event.key)) return;
+                    event.preventDefault();
+                    let nextIndex = index;
+                    if (event.key === 'ArrowRight') nextIndex = (index + 1) % triggers.length;
+                    if (event.key === 'ArrowLeft') nextIndex = (index - 1 + triggers.length) % triggers.length;
+                    if (event.key === 'Home') nextIndex = 0;
+                    if (event.key === 'End') nextIndex = triggers.length - 1;
+                    triggers[nextIndex].focus();
+                    activate(triggers[nextIndex]);
+                });
+            });
+
+            activate(triggers.find(trigger => trigger.getAttribute('aria-selected') === 'true') || triggers[0]);
+        }
+
+        function setFeature(featureKey, button) {
+            const content = featureContent[featureKey];
+            const toneClass = content.tone === 'amber' ? 'text-amber-400' : 'text-cyan';
+            const borderClass = content.tone === 'amber' ? 'border-amber-400/25' : 'border-cyan/25';
+            const bgClass = content.tone === 'amber' ? 'bg-amber-400/[.06]' : 'bg-cyan/[.06]';
+
+            document.querySelectorAll('.feature-button').forEach(item => item.setAttribute('aria-pressed', String(item === button)));
+            document.getElementById('featureReadoutEyebrow').textContent = content.eyebrow;
+            document.getElementById('featureReadoutTitle').textContent = content.title;
+            document.getElementById('featureReadoutBody').textContent = content.body;
+            document.getElementById('featureReadoutMetric').textContent = content.metric;
+
+            const iconWrap = document.getElementById('featureReadoutIcon');
+            iconWrap.className = `grid h-12 w-12 place-items-center border ${borderClass} ${bgClass} ${toneClass} cut-corners`;
+            iconWrap.innerHTML = `<i data-lucide="${content.icon}" class="h-6 w-6" aria-hidden="true"></i>`;
+            document.getElementById('featureReadoutEyebrow').className = `tech-label text-[10px] ${toneClass}`;
+            document.getElementById('featureReadoutMetric').className = `font-display text-2xl font-semibold sm:text-right ${toneClass}`;
+            if (window.lucide) window.lucide.createIcons();
+        }
+
+        function calculate3d() {
+            const material = document.getElementById('printMaterial');
+            const weightInput = document.getElementById('printWeight');
+            const rate = Number(material.value);
+            const rawWeight = weightInput.value.trim();
+            const weight = Number(rawWeight);
+            const valid = rawWeight !== '' && Number.isFinite(weight) && weight >= 0.1 && weight <= 100000;
+            const materialCost = rate * weight;
+            const colorCost = extraColorCount * EXTRA_COLOR_RATE;
+
+            if (!valid) {
+                return {
+                    valid: false,
+                    error: 'กรุณากรอกน้ำหนักมากกว่า 0 และไม่เกิน 100,000 กรัม',
+                    total: 0
+                };
+            }
+
+            return {
+                valid: true,
+                total: materialCost + colorCost,
+                label: `${optionName(material)} · ${money.format(weight)}g × ${money.format(rate)}`,
+                value: materialCost,
+                secondaryLabel: `สีเพิ่มเติม · ${extraColorCount} × ${EXTRA_COLOR_RATE}`,
+                secondaryValue: colorCost
+            };
+        }
+
+        function calculateLaser() {
+            const service = document.getElementById('laserService');
+            const material = document.getElementById('laserMaterial');
+            const base = Number(service.value);
+            const factor = Number(document.getElementById('laserComplexity').value);
+            const total = base * factor;
+            return {
+                valid: true,
+                total,
+                label: `${optionName(service)} · Base`,
+                value: base,
+                secondaryLabel: `Factor adjustment · ${optionName(material)} · Complexity ×${factor.toFixed(2)}`,
+                secondaryValue: total - base
+            };
+        }
+
+        function getEstimate() {
+            const printEstimate = calculate3d();
+            const laserEstimate = calculateLaser();
+            const combined = document.getElementById('combineServices').checked;
+            const mode = combined ? 'COMBINED ORDER' : (activeEstimator === '3d' ? '3D PRINTING' : 'LASER SERVICE');
+            const modeTone = combined || activeEstimator === 'laser' ? 'amber' : 'cyan';
+
+            if ((combined || activeEstimator === '3d') && !printEstimate.valid) {
+                return {
+                    valid: false,
+                    error: printEstimate.error,
+                    mode,
+                    modeTone
+                };
+            }
+
+            if (combined) {
+                return {
+                    valid: true,
+                    total: printEstimate.total + laserEstimate.total,
+                    label: '3D Printing subtotal',
+                    value: printEstimate.total,
+                    secondaryLabel: 'Laser Service subtotal',
+                    secondaryValue: laserEstimate.total,
+                    mode,
+                    modeTone
+                };
+            }
+
+            const current = activeEstimator === '3d' ? printEstimate : laserEstimate;
+            return {
+                ...current,
+                mode,
+                modeTone
+            };
+        }
+
+        function updateEstimate() {
+            const estimate = getEstimate();
+            const printEstimate = calculate3d();
+            const laserEstimate = calculateLaser();
+            const combined = document.getElementById('combineServices').checked;
+            const printRequired = activeEstimator === '3d' || combined;
+            const invalidWeight = printRequired && !printEstimate.valid;
+            const weightInput = document.getElementById('printWeight');
+            const weightError = document.getElementById('weightError');
+            const combinedSummary = document.getElementById('combinedSummary');
+
+            document.getElementById('colorsMinus').disabled = extraColorCount === 0;
+            document.getElementById('colorsPlus').disabled = extraColorCount === 20;
+            combinedSummary.classList.toggle('hidden', !combined);
+            document.getElementById('combined3dSummary').textContent = printEstimate.valid
+                ? `${printEstimate.label} + ${extraColorCount} สีเพิ่ม · ${money.format(printEstimate.total)} THB`
+                : printEstimate.error;
+            document.getElementById('combinedLaserSummary').textContent = `${optionName(document.getElementById('laserService'))} · ${optionName(document.getElementById('laserMaterial'))} · ×${Number(document.getElementById('laserComplexity').value).toFixed(2)} · ${money.format(laserEstimate.total)} THB`;
+
+            weightInput.setAttribute('aria-invalid', String(invalidWeight));
+            weightError.classList.toggle('hidden', !invalidWeight);
+            document.getElementById('weightLive').textContent = printEstimate.valid
+                ? `${money.format(Number(weightInput.value))} g`
+                : '— g';
+            document.getElementById('complexityLive').textContent = `${Number(document.getElementById('laserComplexity').value).toFixed(2)}×`;
+
+            const badge = document.getElementById('estimateModeBadge');
+            badge.textContent = estimate.mode;
+            badge.className = estimate.modeTone === 'amber'
+                ? 'rounded-full border border-amber-400/20 bg-amber-400/[.05] px-2.5 py-1 text-[10px] font-semibold text-amber-300'
+                : 'rounded-full border border-cyan/20 bg-cyan/[.05] px-2.5 py-1 text-[10px] font-semibold text-cyan';
+
+            const copyButton = document.getElementById('copyEstimate');
+            copyButton.disabled = !estimate.valid;
+
+            if (!estimate.valid) {
+                document.getElementById('finalPrice').textContent = '—';
+                document.getElementById('lineItemPrimaryLabel').textContent = estimate.error;
+                document.getElementById('lineItemPrimaryValue').textContent = '—';
+                document.getElementById('lineItemSecondaryLabel').textContent = 'ยังไม่สามารถคำนวณราคาได้';
+                document.getElementById('lineItemSecondaryValue').textContent = '—';
+                document.getElementById('rawSubtotal').textContent = '—';
+                document.getElementById('minimumNotice').classList.add('hidden');
+                document.getElementById('minimumAdjustmentRow').classList.add('hidden');
+                return;
+            }
+
+            const finalTotal = Math.max(MINIMUM_CHARGE, estimate.total);
+            const adjustment = finalTotal - estimate.total;
+            const isMinimum = estimate.total < MINIMUM_CHARGE;
+
+            document.getElementById('finalPrice').textContent = money.format(finalTotal);
+            document.getElementById('lineItemPrimaryLabel').textContent = estimate.label;
+            document.getElementById('lineItemPrimaryValue').textContent = `${money.format(estimate.value)} THB`;
+            document.getElementById('lineItemSecondaryLabel').textContent = estimate.secondaryLabel;
+            document.getElementById('lineItemSecondaryValue').textContent = `${money.format(estimate.secondaryValue)} THB`;
+            document.getElementById('rawSubtotal').textContent = `${money.format(estimate.total)} THB`;
+            document.getElementById('minimumAdjustment').textContent = `+${money.format(adjustment)} THB`;
+            document.getElementById('minimumNotice').classList.toggle('hidden', !isMinimum);
+            document.getElementById('minimumAdjustmentRow').classList.toggle('hidden', !isMinimum);
+        }
+
+        function estimateText() {
+            const estimate = getEstimate();
+            const finalTotal = Math.max(MINIMUM_CHARGE, estimate.total);
+            return [
+                'A&N Digital Fabrication — Estimated Quote',
+                `Mode: ${estimate.mode}`,
+                `${estimate.label}: ${money.format(estimate.value)} THB`,
+                `${estimate.secondaryLabel}: ${money.format(estimate.secondaryValue)} THB`,
+                `Subtotal: ${money.format(estimate.total)} THB`,
+                `Estimated total: ${money.format(finalTotal)} THB`,
+                estimate.total < MINIMUM_CHARGE ? 'Minimum charge per order is 250 THB.' : '',
+                'Final price is subject to file review.'
+            ].filter(Boolean).join('\n');
+        }
+
+        async function copyEstimate() {
+            const status = document.getElementById('copyStatus');
+            const estimate = getEstimate();
+            if (!estimate.valid) {
+                status.textContent = estimate.error;
+                return;
+            }
+            const text = estimateText();
+            try {
+                await navigator.clipboard.writeText(text);
+                status.textContent = 'คัดลอกสรุปราคาแล้ว';
+            } catch (error) {
+                const textarea = document.createElement('textarea');
+                textarea.value = text;
+                textarea.style.position = 'fixed';
+                textarea.style.opacity = '0';
+                document.body.appendChild(textarea);
+                textarea.select();
+                document.execCommand('copy');
+                textarea.remove();
+                status.textContent = 'คัดลอกสรุปราคาแล้ว';
+            }
+            window.setTimeout(() => { status.textContent = ''; }, 2500);
+        }
+
+        function formatFileSize(bytes) {
+            if (bytes < 1024) return `${bytes} B`;
+            if (bytes < 1024 * 1024) return `${(bytes / 1024).toFixed(1)} KB`;
+            return `${(bytes / (1024 * 1024)).toFixed(1)} MB`;
+        }
+
+        function renderFileQueue() {
+            const wrap = document.getElementById('fileQueueWrap');
+            const queue = document.getElementById('fileQueue');
+            document.getElementById('fileCount').textContent = selectedFiles.length;
+            wrap.classList.toggle('hidden', selectedFiles.length === 0);
+            queue.innerHTML = '';
+
+            selectedFiles.forEach((file, index) => {
+                const item = document.createElement('li');
+                item.className = 'flex items-center justify-between gap-3 rounded-xl border border-white/[.07] bg-slate-950/55 px-4 py-3';
+
+                const details = document.createElement('div');
+                details.className = 'flex min-w-0 items-center gap-3';
+                details.innerHTML = `<span class="grid h-9 w-9 shrink-0 place-items-center rounded-lg border border-cyan/20 bg-cyan/[.05] text-[10px] font-bold uppercase text-cyan">${file.name.split('.').pop()}</span><span class="min-w-0"><strong class="block truncate text-sm font-medium text-slate-200"></strong><span class="block text-[10px] text-slate-600">${formatFileSize(file.size)}</span></span>`;
+                details.querySelector('strong').textContent = file.name;
+
+                const remove = document.createElement('button');
+                remove.type = 'button';
+                remove.className = 'grid h-8 w-8 shrink-0 place-items-center rounded-lg text-slate-600 transition hover:bg-rose-400/[.08] hover:text-rose-400';
+                remove.setAttribute('aria-label', `ลบไฟล์ ${file.name}`);
+                remove.innerHTML = '<i data-lucide="x" class="h-4 w-4" aria-hidden="true"></i>';
+                remove.addEventListener('click', () => {
+                    selectedFiles.splice(index, 1);
+                    renderFileQueue();
+                });
+
+                item.append(details, remove);
+                queue.appendChild(item);
+            });
+
+            if (window.lucide) window.lucide.createIcons();
+        }
+
+        function addFiles(fileList) {
+            const allowed = ['stl', 'step', 'stp', 'dxf', 'ai'];
+            const rejected = [];
+
+            Array.from(fileList).forEach(file => {
+                const extension = file.name.split('.').pop().toLowerCase();
+                const duplicate = selectedFiles.some(item => item.name === file.name && item.size === file.size);
+                if (!allowed.includes(extension)) {
+                    rejected.push(file.name);
+                } else if (!duplicate) {
+                    selectedFiles.push(file);
+                }
+            });
+
+            document.getElementById('fileError').textContent = rejected.length
+                ? `ไม่รองรับ: ${rejected.join(', ')} — กรุณาใช้ STL, STEP, STP, DXF หรือ AI`
+                : '';
+            renderFileQueue();
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            if (window.lucide) window.lucide.createIcons();
+            document.getElementById('currentYear').textContent = new Date().getFullYear();
+
+            document.getElementById('lineContact').href = CONTACT_CONFIG.lineUrl;
+            document.getElementById('lineContactLabel').textContent = CONTACT_CONFIG.lineId;
+            document.getElementById('emailContact').href = `mailto:${CONTACT_CONFIG.email}`;
+            document.getElementById('emailContactLabel').textContent = CONTACT_CONFIG.email;
+
+            renderSwatches('plaSwatches', 'plaColorLabel', plaColors, '#00f2fe');
+            renderSwatches('petgSwatches', 'petgColorLabel', petgColors, '#7dd3fc');
+
+            setupTabs('[data-material-tab]', {
+                '3d': 'materialsPanel3d',
+                laser: 'materialsPanelLaser'
+            });
+
+            setupTabs('[data-estimator-tab]', {
+                '3d': 'estimatePanel3d',
+                laser: 'estimatePanelLaser'
+            }, trigger => {
+                activeEstimator = trigger.dataset.estimatorTab;
+                updateEstimate();
+            });
+
+            document.querySelectorAll('.feature-button').forEach(button => {
+                button.addEventListener('click', () => setFeature(button.dataset.feature, button));
+            });
+
+            document.querySelectorAll('[data-open-estimator]').forEach(button => {
+                button.addEventListener('click', () => {
+                    document.querySelector(`[data-estimator-tab="${button.dataset.openEstimator}"]`).click();
+                });
+            });
+
+            ['printWeight', 'laserComplexity'].forEach(id => {
+                document.getElementById(id).addEventListener('input', updateEstimate);
+            });
+            ['printMaterial', 'laserService', 'laserMaterial', 'combineServices'].forEach(id => {
+                document.getElementById(id).addEventListener('change', updateEstimate);
+            });
+
+            document.getElementById('colorsMinus').addEventListener('click', () => {
+                extraColorCount = Math.max(0, extraColorCount - 1);
+                document.getElementById('extraColors').textContent = extraColorCount;
+                updateEstimate();
+            });
+
+            document.getElementById('colorsPlus').addEventListener('click', () => {
+                extraColorCount = Math.min(20, extraColorCount + 1);
+                document.getElementById('extraColors').textContent = extraColorCount;
+                updateEstimate();
+            });
+
+            document.getElementById('copyEstimate').addEventListener('click', copyEstimate);
+
+            const dropZone = document.getElementById('dropZone');
+            const fileInput = document.getElementById('fileInput');
+            const openFilePicker = () => fileInput.click();
+            dropZone.addEventListener('click', openFilePicker);
+            dropZone.addEventListener('keydown', event => {
+                if (event.key === 'Enter' || event.key === ' ') {
+                    event.preventDefault();
+                    openFilePicker();
+                }
+            });
+            fileInput.addEventListener('change', event => {
+                addFiles(event.target.files);
+                event.target.value = '';
+            });
+            ['dragenter', 'dragover'].forEach(eventName => dropZone.addEventListener(eventName, event => {
+                event.preventDefault();
+                dropZone.classList.add('drop-active');
+            }));
+            ['dragleave', 'drop'].forEach(eventName => dropZone.addEventListener(eventName, event => {
+                event.preventDefault();
+                dropZone.classList.remove('drop-active');
+            }));
+            dropZone.addEventListener('drop', event => addFiles(event.dataTransfer.files));
+            document.getElementById('clearFiles').addEventListener('click', () => {
+                selectedFiles = [];
+                fileInput.value = '';
+                document.getElementById('fileError').textContent = '';
+                renderFileQueue();
+            });
+
+            const mobileMenuButton = document.getElementById('mobileMenuButton');
+            const mobileMenu = document.getElementById('mobileMenu');
+            mobileMenuButton.addEventListener('click', () => {
+                const expanded = mobileMenuButton.getAttribute('aria-expanded') === 'true';
+                mobileMenuButton.setAttribute('aria-expanded', String(!expanded));
+                mobileMenu.classList.toggle('hidden', expanded);
+                mobileMenuButton.innerHTML = `<i data-lucide="${expanded ? 'menu' : 'x'}" class="h-5 w-5" aria-hidden="true"></i>`;
+                if (window.lucide) window.lucide.createIcons();
+            });
+            mobileMenu.querySelectorAll('a').forEach(link => link.addEventListener('click', () => {
+                mobileMenu.classList.add('hidden');
+                mobileMenuButton.setAttribute('aria-expanded', 'false');
+                mobileMenuButton.innerHTML = '<i data-lucide="menu" class="h-5 w-5" aria-hidden="true"></i>';
+                if (window.lucide) window.lucide.createIcons();
+            }));
+
+            const observer = new IntersectionObserver(entries => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('is-visible');
+                        observer.unobserve(entry.target);
+                    }
+                });
+            }, { threshold: 0.08 });
+            document.querySelectorAll('.reveal').forEach(element => observer.observe(element));
+
+            updateEstimate();
+        });
+    </script>
+</body>
+</html>
