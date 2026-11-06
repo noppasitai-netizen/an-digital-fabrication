@@ -115,7 +115,8 @@
 
         button,
         input,
-        select {
+        select,
+        textarea {
             font: inherit;
         }
 
@@ -1773,11 +1774,40 @@
             background: var(--soft);
         }
 
-        .contact-warning {
-            margin-top: 10px !important;
-            color: var(--muted);
-            font-size: 13px !important;
-            text-align: center;
+        .request-form { margin-top: 28px; }
+        .quote-intro { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 18px 28px; margin-bottom: 28px; }
+        .quote-intro h2 { margin-bottom: 6px; font-size: 30px; }
+        .quote-intro p { margin-bottom: 0; }
+        .quote-shortcuts { display: flex; flex-wrap: wrap; gap: 10px; }
+        .quote-shortcuts .btn { font-size: 14px; }
+        .btn[aria-disabled="true"] { opacity: .45; cursor: not-allowed; }
+        .request-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 18px; }
+        .request-field { display: grid; gap: 7px; color: var(--ink); font-size: 14px; font-weight: 600; }
+        .request-field.full { grid-column: 1 / -1; }
+        .request-field .field { font-size: 16px; font-weight: 400; }
+        .request-field textarea { min-height: 110px; resize: vertical; }
+        .request-field small { color: var(--body); font-size: 12px; font-weight: 400; }
+        .request-submit { width: 100%; margin-top: 22px; }
+        .request-note { margin: 10px 0 0; color: var(--body); font-size: 13px; }
+        .request-preview { margin-top: 24px; padding-top: 22px; border-top: 1px solid var(--line); }
+        .request-preview h3 { margin-bottom: 8px; font-size: 19px; }
+        .request-preview textarea { width: 100%; min-height: 280px; resize: vertical; font: inherit; font-size: 14px; }
+        .request-actions { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 12px; }
+        .request-actions .btn { flex: 1 1 170px; }
+        .request-status { min-height: 24px; margin-top: 10px; font-size: 14px; color: var(--accent-dark); }
+        .contact-card { align-self: start; }
+        .contact-person { margin-top: 20px; padding: 18px; background: var(--soft); border-radius: 10px; }
+        .contact-person strong { display: block; color: var(--ink); font-size: 20px; }
+        .contact-person span { font-size: 14px; }
+        .contact-tip { margin-top: 16px; font-size: 13px; color: var(--body); }
+        .contact-copy { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 12px; }
+        .contact-copy button { padding: 7px 11px; border: 1px solid var(--line); border-radius: 7px; background: white; color: var(--accent-dark); cursor: pointer; font-size: 13px; }
+        .file-queue { padding-left: 0; list-style: none; }
+        .file-help { color: var(--body) !important; font-size: 12px !important; }
+        @media (max-width: 600px) {
+            .request-grid { grid-template-columns: 1fr; }
+            .request-actions { flex-direction: column; }
+            .request-actions .btn { flex-basis: auto; }
         }
 
         .site-footer {
@@ -2636,29 +2666,64 @@
 
         <section id="quote" class="section section-soft">
             <div class="site-shell">
+                <div class="quote-intro">
+                    <div><p class="eyebrow">ติดต่อและขอราคา</p><h2>คุยกับคุณปิยณัฐได้โดยตรง</h2><p>เลือกช่องทางที่สะดวก หรือกรอกรายละเอียดงานด้านล่าง</p></div>
+                    <div class="quote-shortcuts">
+                        <a href="https://line.me/R/ti/p/%40annbusiness" target="_blank" rel="noopener noreferrer" class="btn btn-primary"><i data-lucide="message-circle" aria-hidden="true"></i>LINE @annbusiness</a>
+                        <a href="tel:+66915990938" class="btn btn-secondary"><i data-lucide="phone" aria-hidden="true"></i>091-599-0938</a>
+                    </div>
+                </div>
                 <div class="quote-grid">
                     <div class="card upload-card reveal">
                         <div class="upload-heading">
                             <div>
                                 <p class="eyebrow">ขอใบเสนอราคาอย่างเป็นทางการ</p>
-                                <h2>ส่งไฟล์ให้ทีมประเมินจริง</h2>
-                                <p>ลากไฟล์ลงในพื้นที่ด้านล่าง หรือเลือกจากอุปกรณ์ ระบบจะเตรียมรายการไฟล์สำหรับแนบขอใบเสนอราคา</p>
+                                <h2>เตรียมงาน แล้วคุยกันทาง LINE</h2>
+                                <p>กรอกรายละเอียดเพื่อสร้างข้อความขอราคา จากนั้นเปิดแชตกับคุณปิยณัฐและแนบไฟล์งานได้เลย</p>
                             </div>
                             <span class="local-file-label"><i data-lucide="lock-keyhole" aria-hidden="true"></i>ไฟล์ยังอยู่ในอุปกรณ์ของคุณ</span>
                         </div>
 
-                        <input id="fileInput" type="file" class="sr-only" multiple accept=".stl,.step,.stp,.dxf,.ai" aria-describedby="fileHelp">
+                        <form id="quoteForm" class="request-form">
+                            <div class="request-grid">
+                                <label class="request-field" for="quoteName">ชื่อผู้ติดต่อ *
+                                    <input id="quoteName" name="customerName" class="field" autocomplete="name" required maxlength="80" placeholder="ชื่อของคุณ">
+                                </label>
+                                <label class="request-field" for="quoteReply">เบอร์โทร / LINE / อีเมลติดต่อกลับ *
+                                    <input id="quoteReply" name="replyTo" class="field" required maxlength="120" placeholder="ช่องทางที่สะดวกรับคำตอบ">
+                                </label>
+                                <label class="request-field" for="quoteService">ประเภทงาน
+                                    <select id="quoteService" name="service" class="field">
+                                        <option>พิมพ์ 3D</option><option>ตัด / แกะสลักเลเซอร์</option><option>พิมพ์ 3D และงานเลเซอร์</option><option>ปรึกษาก่อนเลือกบริการ</option>
+                                    </select>
+                                </label>
+                                <label class="request-field" for="quoteQuantity">จำนวนชิ้น *
+                                    <input id="quoteQuantity" name="quantity" class="field" type="number" inputmode="numeric" min="1" max="100000" step="1" value="1" required>
+                                </label>
+                                <label class="request-field" for="quoteMaterial">วัสดุ / สีที่ต้องการ
+                                    <input id="quoteMaterial" name="material" class="field" maxlength="120" placeholder="เช่น PETG สีดำ หรือให้ทีมแนะนำ">
+                                </label>
+                                <label class="request-field" for="quoteDate">วันที่ต้องการรับงาน
+                                    <input id="quoteDate" name="dueDate" class="field" type="date">
+                                    <small>ทีมจะยืนยันระยะเวลาหลังตรวจรายละเอียด</small>
+                                </label>
+                                <label class="request-field full" for="quoteDetails">รายละเอียดและขนาดชิ้นงาน *
+                                    <textarea id="quoteDetails" name="details" class="field" required maxlength="800" placeholder="ชิ้นงานใช้ทำอะไร ขนาดโดยประมาณ และรายละเอียดที่ต้องการให้ทีมช่วยดู"></textarea>
+                                </label>
+                            </div>
+                        <input id="fileInput" type="file" class="sr-only" multiple accept=".stl,.step,.stp,.dxf,.ai,.pdf,.jpg,.jpeg,.png" aria-describedby="fileHelp">
                         <div id="dropZone" class="drop-zone" role="button" tabindex="0" aria-label="ลากไฟล์มาวาง หรือกดเพื่อเลือกไฟล์">
                             <i data-lucide="file-up" aria-hidden="true"></i>
-                            <h3>วางไฟล์งานที่นี่</h3>
+                            <h3>เตรียมรายการไฟล์งาน (ถ้ามี)</h3>
                             <p>ลากและวาง หรือ <strong>เลือกไฟล์จากเครื่อง</strong></p>
                             <div class="file-types">
                                 <span>.STL</span>
                                 <span>.STEP / .STP</span>
                                 <span>.DXF</span>
                                 <span>.AI</span>
+                                <span>.PDF / รูปภาพ</span>
                             </div>
-                            <p id="fileHelp" class="file-help">ไฟล์ยังไม่ถูกอัปโหลดจากเบราว์เซอร์นี้ กรุณาแนบผ่าน LINE หรืออีเมลในขั้นตอนถัดไป</p>
+                            <p id="fileHelp" class="file-help">สูงสุด 10 ไฟล์ ไฟล์ละ 25 MB · เว็บบันทึกเฉพาะรายการไฟล์ในข้อความ คุณต้องแนบไฟล์จริงในแชต LINE ด้วยตัวเอง</p>
                         </div>
 
                         <div id="fileQueueWrap" class="hidden">
@@ -2669,12 +2734,28 @@
                             <ul id="fileQueue" class="file-queue" aria-live="polite"></ul>
                         </div>
                         <p id="fileError" class="file-error" role="alert"></p>
+                            <button type="submit" class="btn btn-primary request-submit"><i data-lucide="file-text" aria-hidden="true"></i>สร้างข้อความขอราคา</button>
+                            <p class="request-note">รายละเอียดจะอยู่ในหน้านี้จนกว่าคุณจะเปิด LINE และกดส่งข้อความด้วยตัวเอง</p>
+                        </form>
+                        <section id="quotePreview" class="request-preview" hidden aria-labelledby="quotePreviewTitle">
+                            <h3 id="quotePreviewTitle">ข้อความพร้อมส่งให้ทีม</h3>
+                            <label class="request-field" for="quoteMessage">ตรวจรายละเอียดก่อนส่ง
+                                <textarea id="quoteMessage" class="field" readonly></textarea>
+                            </label>
+                            <div class="request-actions">
+                                <a id="sendQuoteLine" class="btn btn-primary" href="https://line.me/R/ti/p/%40annbusiness" target="_blank" rel="noopener noreferrer"><span id="sendQuoteLineLabel">เปิด LINE พร้อมข้อความ</span><i data-lucide="arrow-up-right" aria-hidden="true"></i></a>
+                                <button id="copyQuote" type="button" class="btn btn-secondary"><i data-lucide="copy" aria-hidden="true"></i>คัดลอกข้อความ</button>
+                            </div>
+                            <p class="request-note">บนคอมพิวเตอร์ หาก LINE ไม่เติมข้อความให้ ให้กดคัดลอกแล้ววางในแชต @annbusiness และแนบไฟล์จริงก่อนส่ง</p>
+                            <p id="quoteStatus" class="request-status" role="status" aria-live="polite"></p>
+                        </section>
                     </div>
 
                     <aside class="card contact-card reveal">
                         <p class="eyebrow">คุยกับผู้เชี่ยวชาญ</p>
-                        <h2>พร้อมเริ่มโปรเจกต์ของคุณ</h2>
-                        <p>ส่งไฟล์พร้อมแจ้งจำนวนชิ้น วัสดุ สี ขนาด และวันใช้งาน ทีมจะตรวจสอบความเป็นไปได้และจัดทำใบเสนอราคาอย่างเป็นทางการ</p>
+                        <h2>ติดต่อทีม A&amp;N 3D MAX</h2>
+                        <p>มีไฟล์พร้อมแล้ว หรืออยากปรึกษาความเป็นไปได้ของงาน ทัก LINE หรือโทรคุยกับเราได้โดยตรง</p>
+                        <div class="contact-person"><strong>คุณปิยณัฐ</strong><span>ประสานงานพิมพ์ 3D และงานเลเซอร์</span></div>
 
                         <div class="workflow-steps" aria-label="ขั้นตอนการประเมินงาน">
                             <div class="workflow-step"><strong>01</strong><span>ตรวจรูปทรงและขนาดชิ้นงาน</span></div>
@@ -2683,22 +2764,27 @@
                         </div>
 
                         <div class="contact-actions">
-                            <a id="lineContact" href="https://line.me/R/ti/p/@YOUR_LINE_ID" target="_blank" rel="noopener noreferrer" class="contact-action primary">
+                            <a id="lineContact" href="https://line.me/R/ti/p/%40annbusiness" target="_blank" rel="noopener noreferrer" class="contact-action primary">
                                 <span class="contact-action-main">
                                     <i data-lucide="message-circle" aria-hidden="true"></i>
-                                    <span><strong>ติดต่อทาง LINE</strong><small id="lineContactLabel">@YOUR_LINE_ID</small></span>
+                                    <span><strong>แชตและส่งไฟล์ทาง LINE</strong><small>@annbusiness</small></span>
                                 </span>
                                 <i data-lucide="arrow-up-right" aria-hidden="true"></i>
                             </a>
-                            <a id="emailContact" href="mailto:sales@your-domain.com" class="contact-action secondary">
+                            <a id="phoneContact" href="tel:+66915990938" class="contact-action secondary">
                                 <span class="contact-action-main">
-                                    <i data-lucide="mail" aria-hidden="true"></i>
-                                    <span><strong>อีเมลขอใบเสนอราคา</strong><small id="emailContactLabel">sales@your-domain.com</small></span>
+                                    <i data-lucide="phone" aria-hidden="true"></i>
+                                    <span><strong>โทรคุยกับคุณปิยณัฐ</strong><small>091-599-0938</small></span>
                                 </span>
                                 <i data-lucide="arrow-up-right" aria-hidden="true"></i>
                             </a>
-                            <p class="contact-warning">โปรดแก้ไข LINE ID และอีเมลในส่วน CONTACT_CONFIG ก่อนนำเว็บไซต์ขึ้นใช้งานจริง</p>
                         </div>
+                        <div class="contact-copy">
+                            <button id="copyLineId" type="button">คัดลอก LINE ID</button>
+                            <button id="copyPhone" type="button">คัดลอกเบอร์โทร</button>
+                        </div>
+                        <p id="contactStatus" class="request-status" role="status" aria-live="polite"></p>
+                        <p class="contact-tip">ใช้คอมพิวเตอร์? กดปุ่ม LINE เพื่อเปิดหน้าโปรไฟล์หรือ QR Code แล้วสแกนด้วยโทรศัพท์</p>
                     </aside>
                 </div>
             </div>
@@ -2714,6 +2800,7 @@
                     <span>เลขทะเบียนนิติบุคคล 0115569024076</span>
                     <span>สำนักงานใหญ่ 25/111 หมู่ที่ 2 ตำบลบางแก้ว อำเภอบางพลี จังหวัดสมุทรปราการ</span>
                     <span>บริการพิมพ์ 3D และงานเลเซอร์ความแม่นยำสูง</span>
+                    <span>ติดต่อคุณปิยณัฐ · <a href="tel:+66915990938">091-599-0938</a> · <a href="https://line.me/R/ti/p/%40annbusiness" target="_blank" rel="noopener noreferrer">LINE @annbusiness</a></span>
                 </div>
             </div>
             <div class="footer-meta">
@@ -2726,23 +2813,15 @@
     <div class="mobile-bar">
         <div class="mobile-bar-inner">
             <a href="#estimator" class="btn btn-primary"><i data-lucide="calculator" aria-hidden="true"></i>ประเมินราคา</a>
-            <a href="#quote" class="btn btn-secondary"><i data-lucide="file-up" aria-hidden="true"></i>ส่งไฟล์</a>
+            <a href="https://line.me/R/ti/p/%40annbusiness" target="_blank" rel="noopener noreferrer" class="btn btn-secondary"><i data-lucide="message-circle" aria-hidden="true"></i>แชต LINE</a>
         </div>
     </div>
 
     <script>
-        // Replace these two values before publishing the production website.
-        const CONTACT_CONFIG = {
-            lineId: '@YOUR_LINE_ID',
-            lineUrl: 'https://line.me/R/ti/p/@YOUR_LINE_ID',
-            email: 'sales@your-domain.com'
-        };
-
         const MINIMUM_CHARGE = 250;
         const EXTRA_COLOR_RATE = 50;
         let activeEstimator = '3d';
         let extraColorCount = 0;
-        let selectedFiles = [];
 
         const money = new Intl.NumberFormat('th-TH', {
             minimumFractionDigits: 0,
@@ -3082,73 +3161,9 @@
             }, 2500);
         }
 
-        function formatFileSize(bytes) {
-            if (bytes < 1024) return `${bytes} B`;
-            if (bytes < 1024 * 1024) return `${(bytes / 1024).toFixed(1)} KB`;
-            return `${(bytes / (1024 * 1024)).toFixed(1)} MB`;
-        }
-
-        function renderFileQueue() {
-            const wrap = document.getElementById('fileQueueWrap');
-            const queue = document.getElementById('fileQueue');
-            document.getElementById('fileCount').textContent = selectedFiles.length;
-            wrap.classList.toggle('hidden', selectedFiles.length === 0);
-            queue.innerHTML = '';
-
-            selectedFiles.forEach((file, index) => {
-                const item = document.createElement('li');
-                item.className = 'file-item';
-
-                const details = document.createElement('div');
-                details.className = 'file-details';
-                details.innerHTML = `<span class="file-extension">${file.name.split('.').pop()}</span><span class="file-meta"><strong></strong><span>${formatFileSize(file.size)}</span></span>`;
-                details.querySelector('strong').textContent = file.name;
-
-                const remove = document.createElement('button');
-                remove.type = 'button';
-                remove.className = 'file-remove';
-                remove.setAttribute('aria-label', `ลบไฟล์ ${file.name}`);
-                remove.innerHTML = '<i data-lucide="x" aria-hidden="true"></i>';
-                remove.addEventListener('click', () => {
-                    selectedFiles.splice(index, 1);
-                    renderFileQueue();
-                });
-
-                item.append(details, remove);
-                queue.appendChild(item);
-            });
-
-            renderIcons();
-        }
-
-        function addFiles(fileList) {
-            const allowed = ['stl', 'step', 'stp', 'dxf', 'ai'];
-            const rejected = [];
-
-            Array.from(fileList).forEach(file => {
-                const extension = file.name.split('.').pop().toLowerCase();
-                const duplicate = selectedFiles.some(item => item.name === file.name && item.size === file.size);
-                if (!allowed.includes(extension)) {
-                    rejected.push(file.name);
-                } else if (!duplicate) {
-                    selectedFiles.push(file);
-                }
-            });
-
-            document.getElementById('fileError').textContent = rejected.length
-                ? `ไม่รองรับ: ${rejected.join(', ')} — กรุณาใช้ STL, STEP, STP, DXF หรือ AI`
-                : '';
-            renderFileQueue();
-        }
-
         document.addEventListener('DOMContentLoaded', () => {
             renderIcons();
             document.getElementById('currentYear').textContent = new Date().getFullYear();
-
-            document.getElementById('lineContact').href = CONTACT_CONFIG.lineUrl;
-            document.getElementById('lineContactLabel').textContent = CONTACT_CONFIG.lineId;
-            document.getElementById('emailContact').href = `mailto:${CONTACT_CONFIG.email}`;
-            document.getElementById('emailContactLabel').textContent = CONTACT_CONFIG.email;
 
             renderSwatches('plaSwatches', 'plaColorLabel', plaColors);
             renderSwatches('petgSwatches', 'petgColorLabel', petgColors);
@@ -3197,36 +3212,6 @@
 
             document.getElementById('copyEstimate').addEventListener('click', copyEstimate);
 
-            const dropZone = document.getElementById('dropZone');
-            const fileInput = document.getElementById('fileInput');
-            const openFilePicker = () => fileInput.click();
-            dropZone.addEventListener('click', openFilePicker);
-            dropZone.addEventListener('keydown', event => {
-                if (event.key === 'Enter' || event.key === ' ') {
-                    event.preventDefault();
-                    openFilePicker();
-                }
-            });
-            fileInput.addEventListener('change', event => {
-                addFiles(event.target.files);
-                event.target.value = '';
-            });
-            ['dragenter', 'dragover'].forEach(eventName => dropZone.addEventListener(eventName, event => {
-                event.preventDefault();
-                dropZone.classList.add('drop-active');
-            }));
-            ['dragleave', 'drop'].forEach(eventName => dropZone.addEventListener(eventName, event => {
-                event.preventDefault();
-                dropZone.classList.remove('drop-active');
-            }));
-            dropZone.addEventListener('drop', event => addFiles(event.dataTransfer.files));
-            document.getElementById('clearFiles').addEventListener('click', () => {
-                selectedFiles = [];
-                fileInput.value = '';
-                document.getElementById('fileError').textContent = '';
-                renderFileQueue();
-            });
-
             const mobileMenuButton = document.getElementById('mobileMenuButton');
             const mobileMenu = document.getElementById('mobileMenu');
             mobileMenuButton.addEventListener('click', () => {
@@ -3260,5 +3245,6 @@
             updateEstimate();
         });
     </script>
+    <script src="assets/js/contact.js" defer></script>
 </body>
 </html>
